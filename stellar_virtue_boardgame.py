@@ -23,6 +23,7 @@ MARGIN = 0.5 * inch
 CARD_WIDTH, CARD_HEIGHT = 2.5 * inch, 3.5 * inch
 TOKEN_SIZE = 0.75 * inch
 CARD_SPACING = 0.1 * inch
+SECTOR_SPACING = 2.75 * inch  # Increased from 2.5" for gap between circles
 royal_turquoise = Color(0, 0.569, 0.545)
 
 # Helper Functions
@@ -54,18 +55,28 @@ def draw_common_footer(c):
 
 # Component Drawing Functions
 def draw_game_board(c):
-    """Draw the game board across three pages, four centered sectors per page."""
+    """Draw the game board across three pages, four centered sectors per page with Earth on page 1."""
     for page in range(3):
         c.setFont(FONT_NAME, 16)
         c.setFillColor(royal_turquoise)
         c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT - MARGIN, f"Stellar Virtue Game Board - Page {page+1} of 3")
+        
+        # Earth on page 1 (top center)
+        if page == 0:
+            earth_x = PAGE_WIDTH / 2
+            earth_y = PAGE_HEIGHT - MARGIN - 1.0 * inch
+            c.setStrokeColor(royal_turquoise)
+            c.circle(earth_x, earth_y, 0.75 * inch)
+            c.setFont(FONT_NAME, 12)
+            c.drawCentredString(earth_x, earth_y, "Earth")
+        
+        # Sectors (2x2 grid, centered below Earth or title)
         for i in range(4):
             sector_num = page * 4 + i + 1
             row = i // 2
             col = i % 2
-            # Center 2x2 grid: 5" wide (2 * 2.5"), 5" tall, within 7.5" x 9.5" usable space
-            x = MARGIN + 1.25 * inch + col * 2.5 * inch  # 0.5 + 1.25 = 1.75, +2.5 = 4.25
-            y = PAGE_HEIGHT - MARGIN - 1.0 * inch - 2.25 * inch - row * 2.5 * inch  # 11 - 0.5 - 1 - 2.25 = 7.25, -2.5 = 4.75
+            x = MARGIN + 1.25 * inch + col * SECTOR_SPACING  # 0.5 + 1.25 = 1.75, +2.75 = 4.5
+            y = PAGE_HEIGHT - MARGIN - 2.0 * inch - 1.25 * inch - row * SECTOR_SPACING  # 11 - 0.5 - 2 - 1.25 = 7.25, -2.75 = 4.5
             c.setStrokeColor(royal_turquoise)
             c.circle(x, y, 1.25 * inch)
             c.setFont(FONT_NAME, 12)
@@ -75,8 +86,7 @@ def draw_game_board(c):
             elif sector_num in [4, 8, 12]:
                 c.drawCentredString(x, y - 20, "Enemy Spawn")
         draw_common_footer(c)
-        if page < 2:
-            c.showPage()
+        c.showPage()
 
 def draw_card(c, x, y, title, text):
     """Draw a generic card (used for saint ships, enemy ships, action cards)."""
@@ -211,8 +221,7 @@ def create_pdf():
             y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + CARD_SPACING)
             draw_card(c, x, y, saint_names[index], "Player Ship\nHealth: [ ] [ ] [ ]\nCharge: [ ] [ ] [ ] (Dmg: 1/2/3)")
         draw_common_footer(c)
-        if page < 1:
-            c.showPage()
+        c.showPage()
 
     # Enemy Ships (4 pages, 6 per page)
     enemy_ships = ["Enemy Ship"] * 24  # 24 unique enemy ships
@@ -227,8 +236,7 @@ def create_pdf():
             y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + CARD_SPACING)
             draw_card(c, x, y, f"Enemy Ship {index + 1}", "Health: [ ] [ ]")
         draw_common_footer(c)
-        if page < 3:
-            c.showPage()
+        c.showPage()
 
     # Catholic Action Cards (4 pages, 6 per page)
     catholic_actions = [
@@ -250,8 +258,7 @@ def create_pdf():
             y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + CARD_SPACING)
             draw_card(c, x, y, "Catholic Action", catholic_actions[index % len(catholic_actions)])
         draw_common_footer(c)
-        if page < 3:
-            c.showPage()
+        c.showPage()
 
     # Enemy Action Cards (4 pages, 6 per page)
     enemy_actions = [
@@ -273,8 +280,7 @@ def create_pdf():
             y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + CARD_SPACING)
             draw_card(c, x, y, "Enemy Action", enemy_actions[index % len(enemy_actions)])
         draw_common_footer(c)
-        if page < 3:
-            c.showPage()
+        c.showPage()
 
     # Tokens (1 page, 5 columns, 4 rows per type)
     token_types = ["Health", "Charge", "Virtue"]
