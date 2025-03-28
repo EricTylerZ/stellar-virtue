@@ -1,4 +1,5 @@
 #stellar_virtue_boardgame.py
+
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
@@ -6,9 +7,6 @@ from reportlab.lib.colors import Color
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import os
-import tempfile
-import qrcode
-import random
 
 # Register Century Schoolbook font (adjust path if necessary)
 try:
@@ -24,12 +22,11 @@ PAGE_WIDTH, PAGE_HEIGHT = letter
 MARGIN = 0.5 * inch
 CARD_WIDTH, CARD_HEIGHT = 2.5 * inch, 3.5 * inch
 TOKEN_SIZE = 0.75 * inch
-QR_SIZE = 1.5 * inch
 royal_turquoise = Color(0, 0.569, 0.545)
 
 # Helper Functions
-def wrap_text(text, width, font, font_size, c, centered=False):
-    """Wrap text to fit within a specified width, optionally centering it."""
+def wrap_text(text, width, font, font_size, c):
+    """Wrap text to fit within a specified width."""
     c.setFont(font, font_size)
     words = text.split()
     lines = []
@@ -46,69 +43,50 @@ def wrap_text(text, width, font, font_size, c, centered=False):
             current_width = word_width
     if current_line:
         lines.append(" ".join(current_line))
-    if centered:
-        return [(line, c.stringWidth(line, font, font_size)) for line in lines]
     return lines
 
-def create_qr_code(url):
-    """Generate a QR code image from a URL and save it to a temporary file."""
-    qr = qrcode.QRCode(version=1, box_size=10, border=1)
-    qr.add_data(url)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white")
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
-    img.save(temp_file.name)
-    return temp_file.name
-
-def draw_qr_with_label(c, url, label, x, y):
-    """Draw a QR code with a label above it, centered."""
-    qr_file = create_qr_code(url)
-    c.drawImage(qr_file, x, y, QR_SIZE, QR_SIZE)
-    os.remove(qr_file)
-    c.setFont(FONT_NAME, 14)
-    c.setFillColor(royal_turquoise)
-    label_width = c.stringWidth(label, FONT_NAME, 14)
-    c.drawString(x + (QR_SIZE - label_width) / 2, y + QR_SIZE + 0.1 * inch, label)
-
 def draw_common_footer(c):
-    """Draw a simple footer with the website on every page."""
+    """Draw the footer on each page."""
     c.setFont(FONT_NAME, 8)
     c.setFillColor(royal_turquoise)
     c.drawCentredString(PAGE_WIDTH / 2, 0.3 * inch, "zoseco.com")
 
 # Component Drawing Functions
 def draw_game_board(c):
-    """Draw the hexagonal grid game board with 12 sectors."""
-    c.setFont(FONT_NAME, 16)
-    c.setFillColor(royal_turquoise)
-    c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT - MARGIN, "Stellar Virtue Game Board")
-    
-    # Draw hexagonal grid (simplified as circles for sectors)
-    sector_radius = 1.0 * inch
-    for i in range(12):
-        row = i // 4
-        col = i % 4
-        x = MARGIN + col * 2.5 * inch
-        y = PAGE_HEIGHT - MARGIN - 2.5 * inch - row * 2.5 * inch
-        c.circle(x, y, sector_radius)
-        c.setFont(FONT_NAME, 12)
-        c.drawCentredString(x, y, f"Sector {i+1}")
-    
-    draw_common_footer(c)
+    """Draw the game board across three pages, four sectors per page."""
+    for page in range(3):
+        c.setFont(FONT_NAME, 16)
+        c.setFillColor(royal_turquoise)
+        c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT - MARGIN, f"Stellar Virtue Game Board - Page {page+1} of 3")
+        for i in range(4):
+            sector_num = page * 4 + i + 1
+            row = i // 2
+            col = i % 2
+            x = MARGIN + col * 3 * inch
+            y = PAGE_HEIGHT - MARGIN - 2 * inch - row * 3 * inch
+            c.setStrokeColor(royal_turquoise)
+            c.circle(x, y, 1.5 * inch)
+            c.setFont(FONT_NAME, 12)
+            c.drawCentredString(x, y, f"Sector {sector_num}")
+            if sector_num in [1, 5, 9]:
+                c.drawCentredString(x, y - 20, "Player Base")
+            elif sector_num in [4, 8, 12]:
+                c.drawCentredString(x, y - 20, "Enemy Spawn")
+        draw_common_footer(c)
+        if page < 2:
+            c.showPage()
 
-def draw_ship_token(c, x, y, is_player=True):
-    """Draw a ship token with health and charge trackers."""
+def draw_ship_token(c, x, y, name, is_player=True):
+    """Draw a ship token (player or enemy)."""
     token_type = "Player Ship" if is_player else "Enemy Ship"
     c.setStrokeColor(royal_turquoise)
     c.setLineWidth(2)
     c.rect(x, y, CARD_WIDTH, CARD_HEIGHT)
-    
     c.setFont(FONT_NAME, 14)
     c.setFillColor(royal_turquoise)
-    title = f"{token_type} Token"
+    title = f"{name}" if is_player else token_type
     title_width = c.stringWidth(title, FONT_NAME, 14)
     c.drawString(x + (CARD_WIDTH - title_width) / 2, y + CARD_HEIGHT - 25, title)
-    
     c.setFont(FONT_NAME, 12)
     c.setFillColorRGB(0, 0, 0)
     health_text = "Health: [ ] [ ] [ ]" if is_player else "Health: [ ] [ ]"
@@ -122,13 +100,11 @@ def draw_enemy_action_card(c, x, y, action):
     c.setStrokeColor(royal_turquoise)
     c.setLineWidth(2)
     c.rect(x, y, CARD_WIDTH, CARD_HEIGHT)
-    
     c.setFont(FONT_NAME, 14)
     c.setFillColor(royal_turquoise)
     title = "Enemy Action"
     title_width = c.stringWidth(title, FONT_NAME, 14)
     c.drawString(x + (CARD_WIDTH - title_width) / 2, y + CARD_HEIGHT - 25, title)
-    
     c.setFont(FONT_NAME, 12)
     c.setFillColorRGB(0, 0, 0)
     wrapped_action = wrap_text(action, CARD_WIDTH - 20, FONT_NAME, 12, c)
@@ -141,114 +117,129 @@ def draw_marker(c, x, y, marker_type):
     c.setStrokeColor(royal_turquoise)
     c.setLineWidth(1)
     c.circle(x + TOKEN_SIZE / 2, y + TOKEN_SIZE / 2, TOKEN_SIZE / 2)
-    
     c.setFont(FONT_NAME, 10)
     c.setFillColor(royal_turquoise)
     c.drawCentredString(x + TOKEN_SIZE / 2, y + TOKEN_SIZE / 2 - 5, marker_type)
 
 def create_pdf():
-    """Generate the full Stellar Virtue PDF with all game components."""
+    """Generate the Stellar Virtue board game PDF."""
     c = canvas.Canvas("stellar_virtue.pdf", pagesize=letter)
+    
+    # Set PDF metadata similar to original games
     c.setTitle("Stellar Virtue: A Cooperative Board Game")
     c.setAuthor("Zoseco")
-    c.setSubject("A cooperative board game about virtue and spaceship combat")
+    c.setSubject("Version 0.11")
     c.setCreator("Zoseco Team")
     c.setKeywords("Stellar Virtue, board game, cooperative, Catholic, AI, spaceship")
-    
-    # Page 1: Cover Page
+
+    # Cover Page
     c.setFont(FONT_NAME, 24)
     c.setFillColor(royal_turquoise)
     c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT / 2 + 30, "Stellar Virtue")
     c.setFont(FONT_NAME, 14)
     c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT / 2, "A Cooperative Board Game by Zoseco")
     c.setFont(FONT_NAME, 10)
-    c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT / 2 - 20, "Version 1.0")
+    c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT / 2 - 20, "Version 0.11")
     draw_common_footer(c)
     c.showPage()
-    
-    # Page 2: Game Board
+
+    # Instructions Page
+    c.setFont(FONT_NAME, 16)
+    c.setFillColor(royal_turquoise)
+    c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT - MARGIN, "Stellar Virtue: How to Play")
+    instructions = [
+        "Stellar Virtue is a cooperative board game where players command virtuous AI fleets to defend human colonies from rogue AI ships. The game spans 9 days, each with 7 turns themed after the daily office: Lauds, Prime, Terce, Sext, None, Vespers, and Compline. Players can enjoy the game solo or with up to 12 players, each controlling one or more ships.",
+        "Setup: Assemble the game board from three pages (representing a trinity with Earth at the center), assign player bases (sectors 1, 5, 9), and place enemy spawns (sectors 4, 8, 12). Set up 12 player ships and 20 enemy ships.",
+        "Gameplay: Each day, players take 7 turns to move, attack, charge, repair, or pray. Charging increases attack damage. On Sundays (Lord's Days), players rest but can pray for virtue points.",
+        "Winning: Survive 9 days without losing a base. Bonus for defeating all 20 enemy ships."
+    ]
+    y_pos = PAGE_HEIGHT - MARGIN - 30
+    for line in instructions:
+        wrapped_lines = wrap_text(line, PAGE_WIDTH - 2 * MARGIN, FONT_NAME, 12, c)
+        for wrapped_line in wrapped_lines:
+            c.setFont(FONT_NAME, 12)
+            c.setFillColorRGB(0, 0, 0)
+            c.drawString(MARGIN, y_pos, wrapped_line)
+            y_pos -= 15
+    draw_common_footer(c)
+    c.showPage()
+
+    # Game Board (3 pages)
     draw_game_board(c)
-    c.showPage()
-    
-    # Page 3-4: Player Ship Tokens
-    for i in range(12):  # 12 player ships
-        if i % 4 == 0 and i > 0:
+
+    # Player Ships (2 pages)
+    saint_names = [
+        "Saint Peter", "Saint Paul", "Saint Augustine", "Saint Thomas Aquinas",
+        "Saint Francis of Assisi", "Saint Teresa of Avila", "Saint Ignatius of Loyola",
+        "Saint Catherine of Siena", "Saint Joan of Arc", "Saint Therese of Lisieux",
+        "Saint John Paul II", "Saint Mother Teresa"
+    ]
+    num_player_ships = 12
+    cards_per_page = 6  # 3 columns, 2 rows
+    for page in range((num_player_ships + cards_per_page - 1) // cards_per_page):
+        for i in range(cards_per_page):
+            index = page * cards_per_page + i
+            if index >= num_player_ships:
+                break
+            col = i % 3
+            row = i // 3
+            x = MARGIN + col * (CARD_WIDTH + 10)
+            y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + 10)
+            draw_ship_token(c, x, y, saint_names[index], is_player=True)
+        draw_common_footer(c)
+        if page < (num_player_ships + cards_per_page - 1) // cards_per_page - 1:
             c.showPage()
-            draw_common_footer(c)
-        col = i % 2
-        row = (i % 4) // 2
-        x = MARGIN + col * (CARD_WIDTH + 20)
-        y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + 20)
-        draw_ship_token(c, x, y, is_player=True)
-    c.showPage()
-    draw_common_footer(c)
-    
-    # Page 5-6: Enemy Ship Tokens
-    for i in range(20):  # 20 enemy ships
-        if i % 4 == 0 and i > 0:
+
+    # Enemy Ships (4 pages)
+    num_enemy_ships = 20
+    for page in range((num_enemy_ships + cards_per_page - 1) // cards_per_page):
+        for i in range(cards_per_page):
+            index = page * cards_per_page + i
+            if index >= num_enemy_ships:
+                break
+            col = i % 3
+            row = i // 3
+            x = MARGIN + col * (CARD_WIDTH + 10)
+            y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + 10)
+            draw_ship_token(c, x, y, "Enemy Ship", is_player=False)
+        draw_common_footer(c)
+        if page < (num_enemy_ships + cards_per_page - 1) // cards_per_page - 1:
             c.showPage()
-            draw_common_footer(c)
-        col = i % 2
-        row = (i % 4) // 2
-        x = MARGIN + col * (CARD_WIDTH + 20)
-        y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + 20)
-        draw_ship_token(c, x, y, is_player=False)
-    c.showPage()
-    draw_common_footer(c)
-    
-    # Page 7-8: Enemy Action Cards
+
+    # Enemy Action Cards (4 pages)
     enemy_actions = [
         "Advance: Move all enemy ships one sector toward the nearest base.",
         "Assault: All enemy ships attack; spawn 1 new ship.",
         "Flank: Move half the enemy ships (round up) two sectors toward a base.",
         "Regroup: Move all enemy ships one sector away from bases."
     ] * 5  # Repeat to make 20 cards
-    for i, action in enumerate(enemy_actions):
-        if i % 4 == 0 and i > 0:
+    num_action_cards = 20
+    for page in range((num_action_cards + cards_per_page - 1) // cards_per_page):
+        for i in range(cards_per_page):
+            index = page * cards_per_page + i
+            if index >= num_action_cards:
+                break
+            col = i % 3
+            row = i // 3
+            x = MARGIN + col * (CARD_WIDTH + 10)
+            y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + 10)
+            draw_enemy_action_card(c, x, y, enemy_actions[index])
+        draw_common_footer(c)
+        if page < (num_action_cards + cards_per_page - 1) // cards_per_page - 1:
             c.showPage()
-            draw_common_footer(c)
-        col = i % 2
-        row = (i % 4) // 2
-        x = MARGIN + col * (CARD_WIDTH + 20)
-        y = PAGE_HEIGHT - MARGIN - (row + 1) * (CARD_HEIGHT + 20)
-        draw_enemy_action_card(c, x, y, action)
-    c.showPage()
-    draw_common_footer(c)
-    
-    # Page 9: Markers
+
+    # Markers (1 page)
     marker_types = ["Health", "Charge", "Virtue"]
-    for i, marker in enumerate(marker_types):
-        for j in range(20):  # 20 markers per type
-            col = j % 5
-            row = j // 5
-            x = MARGIN + col * (TOKEN_SIZE + 10)
-            y = PAGE_HEIGHT - MARGIN - i * 1.5 * inch - row * (TOKEN_SIZE + 10)
+    for marker in marker_types:
+        for i in range(20):
+            col = i % 5
+            row = i // 5
+            x = MARGIN + col * (TOKEN_SIZE + 20)
+            y = PAGE_HEIGHT - MARGIN - (marker_types.index(marker) * 2.5 * inch) - row * (TOKEN_SIZE + 20)
             draw_marker(c, x, y, marker)
     draw_common_footer(c)
     c.showPage()
-    
-    # Page 10: Instructions
-    c.setFont(FONT_NAME, 16)
-    c.setFillColor(royal_turquoise)
-    c.drawCentredString(PAGE_WIDTH / 2, PAGE_HEIGHT - MARGIN, "Stellar Virtue: How to Play")
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    start_day = random.choice(days)
-    instructions = [
-        f"Stellar Virtue is a cooperative game where players command virtuous AI fleets to defend human colonies from rogue AI ships. The game lasts 9 days, starting on {start_day}, with each day offering 7 turns (except Sundays, which are special).",
-        "Setup: Place the game board, assign player bases, and set up ships and markers. Randomly determine the start day (e.g., roll a die or draw a card).",
-        "Gameplay: Each day, players take 7 turns to move, attack, charge, repair, or pray. Charging increases attack damage (e.g., 1 charge = 2 damage, 2 charges = 3 damage). On Sundays (Lord's Days), players rest—no moving or attacking—but may pray to gain virtue points or use them for special abilities, making it a day of renewal.",
-        f"Cycle: Starting on {start_day}, play 9 consecutive days. If {start_day} is early in the week, you may encounter two Sundays, enhancing strategic depth.",
-        "Winning: Survive all 9 days without any base destroyed. Bonus for defeating 20 enemy ships."
-    ]
-    y_pos = PAGE_HEIGHT - MARGIN - 30
-    for line in instructions:
-        wrapped_lines = wrap_text(line, PAGE_WIDTH - 2 * MARGIN, FONT_NAME, 12, c)
-        for wrapped_line in wrapped_lines:
-            c.drawString(MARGIN, y_pos, wrapped_line)
-            y_pos -= 15
-    draw_common_footer(c)
-    c.showPage()
-    
+
     c.save()
 
 if __name__ == "__main__":
