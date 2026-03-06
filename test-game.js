@@ -1,5 +1,6 @@
 // test-game.js — Automated playthrough simulation of Stellar Virtue
 // Run with: node test-game.js
+// Tests combat, virtue system (cardinal/theological), moral choices, and Sunday rest
 
 const SAINT_NAMES = [
   'St. Peter', 'St. Paul', 'St. Augustine', 'St. Thomas Aquinas',
@@ -10,6 +11,15 @@ const TURNS = ['Lauds', 'Prime', 'Terce', 'Sext', 'None', 'Vespers', 'Compline']
 const PLAYER_BASES = [1, 5, 9];
 const ENEMY_SPAWNS = [4, 8, 12];
 const MAX_DAYS = 9;
+
+const CARDINAL_VIRTUES = {
+  prudence: { subVirtues: ['memory', 'understanding', 'docility', 'shrewdness', 'reason', 'foresight', 'circumspection', 'caution'] },
+  justice: { subVirtues: ['religion', 'piety', 'observance', 'obedience', 'gratitude', 'vindication', 'truthfulness', 'friendship', 'affability', 'liberality', 'equity', 'fairness', 'epikeia'] },
+  fortitude: { subVirtues: ['magnanimity', 'magnificence', 'patience', 'perseverance', 'longanimity', 'constancy'] },
+  temperance: { subVirtues: ['abstinence', 'sobriety', 'chastity', 'modesty', 'humility', 'studiousness', 'clemency', 'meekness'] }
+};
+const THEOLOGICAL_NAMES = ['faith', 'hope', 'charity'];
+const GIFTS = ['wisdom', 'understanding', 'counsel', 'fortitude', 'knowledge', 'piety', 'fear_of_lord'];
 
 const ADJACENCY = {};
 for (let i = 1; i <= 12; i++) {
@@ -47,6 +57,13 @@ function findPathToward(from, to) {
 }
 
 function newState(playerCount) {
+  // Build cardinal virtue progress tracker
+  const cardinalProgress = {};
+  Object.keys(CARDINAL_VIRTUES).forEach(v => {
+    cardinalProgress[v] = {};
+    CARDINAL_VIRTUES[v].subVirtues.forEach(s => { cardinalProgress[v][s] = 0; });
+  });
+
   return {
     playerCount,
     day: 1,
@@ -66,8 +83,26 @@ function newState(playerCount) {
     basesIntact: { 1: true, 5: true, 9: true },
     baseHealth: { 1: 3, 5: 3, 9: 3 },
     sunday: false,
+    // Cardinal virtues (acquired through practice)
+    cardinalProgress,
+    cardinalsMastered: [],
+    // Theological virtues (infused through grace on Sundays)
+    theologicalLevels: { faith: 0, hope: 0, charity: 0 },
+    // Gifts and fruits
+    giftsReceived: [],
+    fruitsUnlocked: [],
+    // Grace system
+    graceMeter: 0,
+    fidelity: 1.0,
+    merit: 0,
+    prayedThisDay: false,
     result: null
   };
+}
+
+function isCardinalMastered(state, virtue) {
+  const prog = state.cardinalProgress[virtue];
+  return CARDINAL_VIRTUES[virtue].subVirtues.every(s => prog[s] >= 2);
 }
 
 function spawnEnemies(state, count) {
@@ -145,34 +180,123 @@ function checkBases(state) {
   }
 }
 
+// Simulate a prayer virtue question (50% chance correct in AI sim)
+function simulatePrayer(state) {
+  state.prayedThisDay = true;
+  state.graceMeter = Math.min(10, state.graceMeter + 1);
+
+  const correct = Math.random() < 0.5;
+  if (correct) {
+    // Progress a random cardinal sub-virtue
+    const cardinals = Object.keys(CARDINAL_VIRTUES);
+    const virtue = cardinals[Math.floor(Math.random() * cardinals.length)];
+    const subs = CARDINAL_VIRTUES[virtue].subVirtues;
+    const sub = subs[Math.floor(Math.random() * subs.length)];
+    if (state.cardinalProgress[virtue][sub] < 2) {
+      state.cardinalProgress[virtue][sub]++;
+      // Check mastery
+      if (isCardinalMastered(state, virtue) && !state.cardinalsMastered.includes(virtue)) {
+        state.cardinalsMastered.push(virtue);
+      }
+    }
+    state.virtuePoints += 2;
+    state.merit++;
+  } else {
+    state.virtuePoints++;
+  }
+}
+
+// Simulate a moral choice during attack (70% choose greater good)
+function simulateMoralChoice(state) {
+  const choseGreater = Math.random() < 0.7;
+  let bonusDmg = 0;
+  if (choseGreater) {
+    bonusDmg = 1;
+    state.merit++;
+    // Progress a random cardinal sub-virtue
+    const cardinals = Object.keys(CARDINAL_VIRTUES);
+    const virtue = cardinals[Math.floor(Math.random() * cardinals.length)];
+    const subs = CARDINAL_VIRTUES[virtue].subVirtues;
+    const sub = subs[Math.floor(Math.random() * subs.length)];
+    if (state.cardinalProgress[virtue][sub] < 2) {
+      state.cardinalProgress[virtue][sub]++;
+      if (isCardinalMastered(state, virtue) && !state.cardinalsMastered.includes(virtue)) {
+        state.cardinalsMastered.push(virtue);
+      }
+    }
+  }
+  return bonusDmg;
+}
+
+// Simulate Sunday rest
+function doSundayRest(state) {
+  // Heal all ships +2
+  state.playerShips.filter(s => !s.destroyed).forEach(s => {
+    s.health = Math.min(s.maxHealth, s.health + 2);
+  });
+
+  // Grow a theological virtue (rotating)
+  const order = THEOLOGICAL_NAMES;
+  const which = order[state.day % 3];
+  const fidelityBonus = state.fidelity >= 0.8 ? 1 : 0;
+  state.theologicalLevels[which] = Math.min(3, state.theologicalLevels[which] + 1 + fidelityBonus);
+
+  // Grace
+  state.graceMeter = Math.min(10, state.graceMeter + 2);
+
+  // Check for gifts (theological virtue reaches 3)
+  if (state.theologicalLevels.faith >= 3 && !state.giftsReceived.includes('wisdom')) {
+    state.giftsReceived.push('wisdom');
+  }
+  if (state.theologicalLevels.hope >= 3 && !state.giftsReceived.includes('counsel')) {
+    state.giftsReceived.push('counsel');
+  }
+  if (state.theologicalLevels.charity >= 3 && !state.giftsReceived.includes('knowledge')) {
+    state.giftsReceived.push('knowledge');
+  }
+}
+
 // AI Strategy: aggressive — move toward enemies and attack
 function aiPlayerTurn(state) {
   const turn = TURNS[state.turnIndex];
   const aliveShips = state.playerShips.filter(s => !s.destroyed);
 
-  aliveShips.forEach(ship => {
-    if (state.sunday) {
-      state.virtuePoints++;
-      ship.acted = true;
-      return;
-    }
+  // Sunday: rest only
+  if (state.sunday) {
+    doSundayRest(state);
+    return;
+  }
 
+  aliveShips.forEach(ship => {
     switch (turn) {
       case 'Lauds':
-        state.virtuePoints++;
+        // Prayer turn
+        simulatePrayer(state);
         break;
       case 'Prime':
-        state.virtuePoints++; // simplified: gain VP instead of drawing card
+        state.virtuePoints++;
         break;
       case 'Terce':
       case 'Vespers': {
         const enemiesHere = state.enemyShips.filter(e => e.sector === ship.sector && e.deployed && !e.destroyed);
         if (enemiesHere.length > 0) {
-          // Attack
-          const dmg = Math.max(1, ship.charge);
+          // Moral choice during attack
+          const bonusDmg = simulateMoralChoice(state);
+          const baseDmg = Math.max(1, ship.charge);
+          const totalDmg = baseDmg + bonusDmg;
+
+          // Justice mastery bonus
+          const justiceMastered = state.cardinalsMastered.includes('justice');
+          const dmg = totalDmg + (justiceMastered ? 1 : 0);
+
           const target = enemiesHere[0];
           target.health -= dmg;
-          ship.charge = 0;
+
+          // Temperance mastery: keep charge
+          if (!state.cardinalsMastered.includes('temperance')) {
+            ship.charge = 0;
+          }
+
           if (target.health <= 0) { target.destroyed = true; state.enemiesDefeated++; }
         } else {
           // Move toward nearest enemy
@@ -201,6 +325,7 @@ function aiPlayerTurn(state) {
         }
         break;
       case 'Compline':
+        // Fortitude mastery: reduce damage taken (passive, handled elsewhere)
         if (ship.health < ship.maxHealth) ship.health++;
         break;
     }
@@ -210,7 +335,6 @@ function aiPlayerTurn(state) {
 
 function simulateGame(playerCount, label) {
   const state = newState(playerCount);
-  const log = [];
   let totalTurns = 0;
 
   while (state.day <= MAX_DAYS && !state.result) {
@@ -220,7 +344,7 @@ function simulateGame(playerCount, label) {
 
     // Enemy turn (not on Lauds, Compline, or Sundays)
     if (!state.sunday && turn !== 'Lauds' && turn !== 'Compline') {
-      const action = enemyTurn(state);
+      enemyTurn(state);
       checkBases(state);
     }
 
@@ -235,6 +359,12 @@ function simulateGame(playerCount, label) {
       state.turnIndex = 0;
       state.day++;
       state.sunday = (state.day % 7 === 0);
+
+      // Fidelity decay if didn't pray
+      if (!state.prayedThisDay) {
+        state.fidelity = Math.max(0, state.fidelity - 0.2);
+      }
+      state.prayedThisDay = false;
     }
   }
 
@@ -252,12 +382,19 @@ function simulateGame(playerCount, label) {
     basesLeft,
     enemiesDefeated: state.enemiesDefeated,
     totalVirtue: state.virtuePoints,
-    totalVictory: allEnemies && state.result === 'victory'
+    totalVictory: allEnemies && state.result === 'victory',
+    // New virtue stats
+    cardinalsMastered: state.cardinalsMastered.length,
+    theologicalLevels: { ...state.theologicalLevels },
+    giftsReceived: state.giftsReceived.length,
+    merit: state.merit,
+    fidelity: state.fidelity
   };
 }
 
 // ===== Run Simulations =====
-console.log('=== Stellar Virtue — Automated Playtest ===\n');
+console.log('=== Stellar Virtue — Automated Playtest ===');
+console.log('=== With Cardinal/Theological Virtue System ===\n');
 
 const configs = [
   { count: 1, label: 'Solo (1 player)' },
@@ -270,6 +407,8 @@ const GAMES_PER_CONFIG = 20;
 configs.forEach(cfg => {
   console.log(`--- ${cfg.label} (${GAMES_PER_CONFIG} games) ---`);
   let wins = 0, losses = 0, totalDays = 0, totalEnemies = 0, totalVP = 0, totalShips = 0;
+  let totalCardinals = 0, totalGifts = 0, totalMerit = 0;
+  let avgTheological = { faith: 0, hope: 0, charity: 0 };
 
   for (let g = 0; g < GAMES_PER_CONFIG; g++) {
     const r = simulateGame(cfg.count, `${cfg.label} #${g + 1}`);
@@ -279,18 +418,30 @@ configs.forEach(cfg => {
     totalEnemies += r.enemiesDefeated;
     totalVP += r.totalVirtue;
     totalShips += r.shipsAlive;
+    totalCardinals += r.cardinalsMastered;
+    totalGifts += r.giftsReceived;
+    totalMerit += r.merit;
+    avgTheological.faith += r.theologicalLevels.faith;
+    avgTheological.hope += r.theologicalLevels.hope;
+    avgTheological.charity += r.theologicalLevels.charity;
 
     if (g < 3) {
-      console.log(`  Game ${g + 1}: ${r.result.toUpperCase()} | Day ${r.day} | Ships: ${r.shipsAlive}/12 | Bases: ${r.basesLeft}/3 | Enemies: ${r.enemiesDefeated}/24 | VP: ${r.totalVirtue}${r.totalVictory ? ' *** TOTAL VICTORY ***' : ''}`);
+      console.log(`  Game ${g + 1}: ${r.result.toUpperCase()} | Day ${r.day} | Ships: ${r.shipsAlive}/12 | Bases: ${r.basesLeft}/3 | Enemies: ${r.enemiesDefeated}/24 | VP: ${r.totalVirtue} | Cardinals: ${r.cardinalsMastered}/4 | Merit: ${r.merit}${r.totalVictory ? ' *** TOTAL VICTORY ***' : ''}`);
     }
   }
 
+  const n = GAMES_PER_CONFIG;
   console.log(`  ...`);
-  console.log(`  Results: ${wins}W / ${losses}L (${Math.round(wins/GAMES_PER_CONFIG*100)}% win rate)`);
-  console.log(`  Avg days survived: ${(totalDays/GAMES_PER_CONFIG).toFixed(1)}`);
-  console.log(`  Avg enemies killed: ${(totalEnemies/GAMES_PER_CONFIG).toFixed(1)}/24`);
-  console.log(`  Avg ships alive: ${(totalShips/GAMES_PER_CONFIG).toFixed(1)}/12`);
-  console.log(`  Avg virtue points: ${(totalVP/GAMES_PER_CONFIG).toFixed(1)}`);
+  console.log(`  Results: ${wins}W / ${losses}L (${Math.round(wins/n*100)}% win rate)`);
+  console.log(`  Avg days survived: ${(totalDays/n).toFixed(1)}`);
+  console.log(`  Avg enemies killed: ${(totalEnemies/n).toFixed(1)}/24`);
+  console.log(`  Avg ships alive: ${(totalShips/n).toFixed(1)}/12`);
+  console.log(`  Avg virtue points: ${(totalVP/n).toFixed(1)}`);
+  console.log(`  --- Virtue System ---`);
+  console.log(`  Avg cardinals mastered: ${(totalCardinals/n).toFixed(1)}/4`);
+  console.log(`  Avg theological: Faith ${(avgTheological.faith/n).toFixed(1)}/3, Hope ${(avgTheological.hope/n).toFixed(1)}/3, Charity ${(avgTheological.charity/n).toFixed(1)}/3`);
+  console.log(`  Avg gifts received: ${(totalGifts/n).toFixed(1)}/7`);
+  console.log(`  Avg merit: ${(totalMerit/n).toFixed(1)}`);
   console.log('');
 });
 
