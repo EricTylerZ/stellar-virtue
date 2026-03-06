@@ -669,6 +669,209 @@ html, body {
   background: var(--virtue-gold);
 }
 
+/* ===== Moral Choice Overlay ===== */
+#moral-choice-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 35;
+  padding: 16px;
+}
+#moral-choice-card {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+#moral-choice-header {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+#moral-scenario {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+#moral-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.moral-btn {
+  padding: 14px 16px;
+  border: 1.5px solid #2a3548;
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+.moral-btn.lesser {
+  background: var(--bg-surface);
+}
+.moral-btn.greater {
+  background: var(--bg-surface);
+  border-color: var(--gold);
+}
+.moral-btn:active {
+  background: rgba(212, 168, 67, 0.15);
+  border-color: var(--gold);
+}
+
+/* ===== Sunday Rest Overlay ===== */
+#sunday-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 35;
+  padding: 16px;
+}
+#sunday-card {
+  background: var(--bg-card);
+  border: 2px solid var(--primary-light);
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+#sunday-header {
+  color: var(--primary-light);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+#sunday-heal-msg {
+  color: var(--health-red);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+#sunday-title {
+  color: var(--virtue-gold);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+#sunday-text {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* ===== Theological Virtues in Status ===== */
+.theological-row {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-left: 3px solid var(--virtue-gold);
+}
+.theological-row.not-received {
+  border-left-color: #2a3548;
+}
+.grace-level {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+.grace-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid var(--virtue-gold);
+}
+.grace-pip.filled {
+  background: var(--virtue-gold);
+}
+
+/* ===== Gifts in Status ===== */
+.gift-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.gift-item {
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+.gift-item.received {
+  border: 1.5px solid var(--virtue-gold);
+  color: var(--virtue-gold);
+}
+.gift-item.locked {
+  border: 1.5px solid #2a3548;
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+/* ===== Fruits in Status ===== */
+.fruit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.fruit-item {
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 8px 6px;
+  font-size: 0.7rem;
+  text-align: center;
+}
+.fruit-item.unlocked {
+  border: 1.5px solid var(--primary-light);
+  color: var(--primary-light);
+}
+.fruit-item.locked {
+  border: 1.5px solid #2a3548;
+  color: var(--text-dim);
+  opacity: 0.4;
+}
+
+/* ===== Grace Meter in Status ===== */
+.grace-meter-bar {
+  background: #2a3548;
+  border-radius: 6px;
+  height: 10px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+.grace-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--virtue-gold));
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+.grace-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
 /* ===== Utility ===== */
 .hidden {
   display: none !important;

@@ -22,417 +22,12 @@
     { name: 'Lectio Divina', text: 'Gain 1 virtue point and draw another card.', effect: 'virtue1draw' }
   ];
 
-  // ===== Virtue System =====
-  const VIRTUES = {
-    faith: {
-      name: 'Faith',
-      subVirtues: ['trust', 'devotion', 'witness'],
-      subNames: { trust: 'Trust', devotion: 'Devotion', witness: 'Witness' },
-      bonus: '+1 max charge (4 instead of 3)',
-      bonusShort: 'MAX CHG 4'
-    },
-    hope: {
-      name: 'Hope',
-      subVirtues: ['perseverance', 'optimism', 'courage'],
-      subNames: { perseverance: 'Perseverance', optimism: 'Optimism', courage: 'Courage' },
-      bonus: '+1 max health (4 instead of 3)',
-      bonusShort: 'MAX HP 4'
-    },
-    charity: {
-      name: 'Charity',
-      subVirtues: ['generosity', 'compassion', 'sacrifice'],
-      subNames: { generosity: 'Generosity', compassion: 'Compassion', sacrifice: 'Sacrifice' },
-      bonus: 'Praying heals adjacent allied ships',
-      bonusShort: 'PRAY HEALS'
-    },
-    prudence: {
-      name: 'Prudence',
-      subVirtues: ['discernment', 'foresight', 'caution'],
-      subNames: { discernment: 'Discernment', foresight: 'Foresight', caution: 'Caution' },
-      bonus: 'Preview enemy action before it happens',
-      bonusShort: 'FORESIGHT'
-    },
-    justice: {
-      name: 'Justice',
-      subVirtues: ['fairness', 'integrity', 'duty'],
-      subNames: { fairness: 'Fairness', integrity: 'Integrity', duty: 'Duty' },
-      bonus: '+1 attack damage',
-      bonusShort: 'ATK +1'
-    },
-    fortitude: {
-      name: 'Fortitude',
-      subVirtues: ['endurance', 'patience', 'bravery'],
-      subNames: { endurance: 'Endurance', patience: 'Patience', bravery: 'Bravery' },
-      bonus: 'Reduce incoming damage by 1',
-      bonusShort: 'DEF +1'
-    },
-    temperance: {
-      name: 'Temperance',
-      subVirtues: ['moderation', 'humility', 'selfControl'],
-      subNames: { moderation: 'Moderation', humility: 'Humility', selfControl: 'Self-Control' },
-      bonus: 'Attacks keep 1 charge instead of resetting to 0',
-      bonusShort: 'KEEP CHG'
-    }
-  };
+  // ===== Virtue System (from virtues.js) =====
+  const { CARDINAL_VIRTUES, THEOLOGICAL_VIRTUES, GIFTS_OF_SPIRIT, FRUITS_OF_SPIRIT,
+          SUNDAY_REFLECTIONS, VIRTUE_QUESTIONS, MORAL_CHOICES } = VIRTUE_DATA;
 
-  const VIRTUE_QUESTIONS = [
-    // ===== FAITH - Trust =====
-    { virtue: 'faith', sub: 'trust', q: 'What does it mean to trust in God?',
-      answers: ['Believe He will guide you even when you cannot see the way', 'Only trust when things go well', 'Trust yourself above all'],
-      correct: 0, explanation: 'Trust in God means relying on His plan even in uncertainty.' },
-    { virtue: 'faith', sub: 'trust', q: 'Abraham was asked to sacrifice Isaac. What virtue did he show?',
-      answers: ['Trust in God\'s plan', 'Blind obedience without faith', 'Despair'],
-      correct: 0, explanation: 'Abraham trusted God completely, even when asked to do the unthinkable.' },
-    { virtue: 'faith', sub: 'trust', q: 'When facing a difficult situation, trust calls us to:',
-      answers: ['Place our confidence in God\'s providence', 'Panic and give up', 'Rely only on our own strength'],
-      correct: 0, explanation: 'Trust means placing confidence in God\'s care for us.' },
-    { virtue: 'faith', sub: 'trust', q: 'Which Psalm says "Trust in the Lord with all your heart"?',
-      answers: ['Proverbs 3:5', 'Psalm 23', 'Genesis 1:1'],
-      correct: 0, explanation: 'Proverbs 3:5 teaches us to trust God completely, not our own understanding.' },
-    { virtue: 'faith', sub: 'trust', q: 'A friend betrays your confidence. Trust in God helps you to:',
-      answers: ['Forgive and continue to love, knowing God is faithful', 'Never trust anyone again', 'Seek revenge'],
-      correct: 0, explanation: 'God\'s faithfulness teaches us to forgive and love even when others fail us.' },
-
-    // ===== FAITH - Devotion =====
-    { virtue: 'faith', sub: 'devotion', q: 'What is devotion in the Catholic faith?',
-      answers: ['Deep love and commitment to God through prayer and worship', 'Going to church only on holidays', 'Doing good deeds to impress others'],
-      correct: 0, explanation: 'Devotion is a heartfelt commitment to loving and serving God.' },
-    { virtue: 'faith', sub: 'devotion', q: 'The Rosary is a devotion that honors:',
-      answers: ['The Blessed Virgin Mary and the life of Christ', 'Only the saints', 'Ancient traditions with no meaning'],
-      correct: 0, explanation: 'The Rosary meditates on the mysteries of Christ\'s life through Mary\'s intercession.' },
-    { virtue: 'faith', sub: 'devotion', q: 'Daily prayer is an act of devotion because it:',
-      answers: ['Keeps our hearts turned toward God throughout the day', 'Is required to avoid punishment', 'Has no real purpose'],
-      correct: 0, explanation: 'Prayer nurtures our relationship with God and keeps us close to Him.' },
-    { virtue: 'faith', sub: 'devotion', q: 'Which saint is known for extraordinary devotion to the Eucharist?',
-      answers: ['St. Thomas Aquinas', 'St. Patrick', 'St. Nicholas'],
-      correct: 0, explanation: 'St. Thomas Aquinas wrote beautiful hymns about the Eucharist and devoted his life to understanding God.' },
-    { virtue: 'faith', sub: 'devotion', q: 'Devotion to God means we should pray:',
-      answers: ['In good times and bad, consistently', 'Only when we need something', 'Only when we feel like it'],
-      correct: 0, explanation: 'True devotion persists through all seasons of life.' },
-
-    // ===== FAITH - Witness =====
-    { virtue: 'faith', sub: 'witness', q: 'What does it mean to be a witness to your faith?',
-      answers: ['Living your beliefs so others can see God\'s love through you', 'Forcing others to convert', 'Keeping your faith completely private'],
-      correct: 0, explanation: 'Witness means showing God\'s love through your words and actions.' },
-    { virtue: 'faith', sub: 'witness', q: 'The early Christian martyrs witnessed their faith by:',
-      answers: ['Giving their lives rather than deny Christ', 'Fighting wars of conquest', 'Hiding from persecution'],
-      correct: 0, explanation: 'Martyrs gave the ultimate witness by dying for their faith in Christ.' },
-    { virtue: 'faith', sub: 'witness', q: 'How can you witness your faith at school or work?',
-      answers: ['By being kind, honest, and treating everyone with dignity', 'By judging others who don\'t believe', 'By never mentioning your beliefs'],
-      correct: 0, explanation: 'Living with virtue and love is the most powerful witness.' },
-    { virtue: 'faith', sub: 'witness', q: 'Jesus told the apostles to be His witnesses to:',
-      answers: ['The ends of the earth', 'Only in Jerusalem', 'Only to people they already knew'],
-      correct: 0, explanation: 'In Acts 1:8, Jesus calls us to witness everywhere, to all people.' },
-    { virtue: 'faith', sub: 'witness', q: 'St. Paul witnessed to his faith by:',
-      answers: ['Traveling and preaching despite suffering and imprisonment', 'Staying home and writing letters only', 'Giving up when things got hard'],
-      correct: 0, explanation: 'St. Paul endured incredible hardship to spread the Gospel.' },
-
-    // ===== HOPE - Perseverance =====
-    { virtue: 'hope', sub: 'perseverance', q: 'What is perseverance?',
-      answers: ['Continuing to do good even when it\'s difficult', 'Giving up when things get hard', 'Doing only easy tasks'],
-      correct: 0, explanation: 'Perseverance means staying faithful and persistent through challenges.' },
-    { virtue: 'hope', sub: 'perseverance', q: 'Job persevered through suffering because he:',
-      answers: ['Kept faith in God despite losing everything', 'Blamed God for his problems', 'Gave up on life'],
-      correct: 0, explanation: 'Job\'s perseverance through suffering is a model of unwavering hope.' },
-    { virtue: 'hope', sub: 'perseverance', q: 'When a task seems impossible, perseverance calls us to:',
-      answers: ['Keep trying with God\'s help', 'Quit immediately', 'Wait for someone else to do it'],
-      correct: 0, explanation: 'With God, all things are possible — perseverance means trusting that.' },
-    { virtue: 'hope', sub: 'perseverance', q: '"Let us not grow weary of doing good" comes from:',
-      answers: ['Galatians 6:9', 'Matthew 1:1', 'Revelation 22:21'],
-      correct: 0, explanation: 'St. Paul encourages us to persist in doing good, for we will reap a harvest.' },
-    { virtue: 'hope', sub: 'perseverance', q: 'A student struggles with a subject. Perseverance means:',
-      answers: ['Continuing to study and asking for help', 'Cheating on the exam', 'Dropping the course'],
-      correct: 0, explanation: 'Perseverance includes seeking help and not giving up.' },
-
-    // ===== HOPE - Optimism =====
-    { virtue: 'hope', sub: 'optimism', q: 'Christian optimism is based on:',
-      answers: ['The certainty that God loves us and has a plan for our good', 'Ignoring all problems', 'Pretending everything is perfect'],
-      correct: 0, explanation: 'Christian optimism isn\'t naive — it\'s rooted in God\'s promises.' },
-    { virtue: 'hope', sub: 'optimism', q: 'Romans 8:28 teaches that:',
-      answers: ['All things work together for good for those who love God', 'Bad things never happen to good people', 'We should ignore suffering'],
-      correct: 0, explanation: 'God can bring good even from our struggles and sufferings.' },
-    { virtue: 'hope', sub: 'optimism', q: 'When facing bad news, a Christian optimist:',
-      answers: ['Acknowledges the difficulty but trusts in God\'s bigger plan', 'Pretends nothing is wrong', 'Gives in to despair'],
-      correct: 0, explanation: 'True optimism faces reality while trusting in God\'s providence.' },
-    { virtue: 'hope', sub: 'optimism', q: 'The Resurrection gives Christians reason for optimism because:',
-      answers: ['It shows that God conquers even death itself', 'It was just a historical event', 'It only matters for the afterlife'],
-      correct: 0, explanation: 'The Resurrection is the ultimate sign that hope triumphs over despair.' },
-    { virtue: 'hope', sub: 'optimism', q: 'St. Therese of Lisieux practiced optimism through:',
-      answers: ['Finding joy in small, everyday acts of love', 'Grand public gestures', 'Avoiding all difficulty'],
-      correct: 0, explanation: 'Her "Little Way" found God\'s love and hope in the smallest moments.' },
-
-    // ===== HOPE - Courage =====
-    { virtue: 'hope', sub: 'courage', q: 'How does hope give us courage?',
-      answers: ['Knowing God is with us empowers us to face fears', 'It eliminates all fear', 'Courage means never being afraid'],
-      correct: 0, explanation: 'Courage isn\'t the absence of fear — it\'s acting despite fear, trusting in God.' },
-    { virtue: 'hope', sub: 'courage', q: 'David faced Goliath with courage because:',
-      answers: ['He trusted that God would deliver him', 'He was physically stronger', 'He had better weapons'],
-      correct: 0, explanation: 'David\'s courage came from his faith in God, not his own strength.' },
-    { virtue: 'hope', sub: 'courage', q: 'A friend is being bullied. Courage calls you to:',
-      answers: ['Stand up for them even if it\'s scary', 'Ignore the situation', 'Join the bullies to stay safe'],
-      correct: 0, explanation: 'Courage means defending what is right, even at personal cost.' },
-    { virtue: 'hope', sub: 'courage', q: '"Be not afraid" appears in the Bible approximately:',
-      answers: ['365 times — one for each day', '10 times', 'Only once'],
-      correct: 0, explanation: 'God repeatedly tells us not to fear — He is always with us.' },
-    { virtue: 'hope', sub: 'courage', q: 'St. Joan of Arc showed courage by:',
-      answers: ['Leading an army for France despite being a young peasant girl', 'Hiding from responsibility', 'Waiting for someone braver'],
-      correct: 0, explanation: 'Joan trusted God\'s call and bravely answered, despite enormous odds.' },
-
-    // ===== CHARITY - Generosity =====
-    { virtue: 'charity', sub: 'generosity', q: 'What is generosity in the Christian sense?',
-      answers: ['Giving freely of your time, talent, and treasure without expecting return', 'Giving only to get something back', 'Giving only your excess'],
-      correct: 0, explanation: 'True generosity gives freely, as God gives to us.' },
-    { virtue: 'charity', sub: 'generosity', q: 'The widow\'s mite teaches us that:',
-      answers: ['Giving from our need is more generous than giving from excess', 'Only large donations matter', 'Poor people shouldn\'t give'],
-      correct: 0, explanation: 'Jesus praised the widow who gave her last coins — generosity is about the heart.' },
-    { virtue: 'charity', sub: 'generosity', q: 'How can you practice generosity daily?',
-      answers: ['Share your time, help others, and give what you can', 'Only donate money to charities', 'Wait until you\'re wealthy to give'],
-      correct: 0, explanation: 'Generosity can be practiced in countless small ways every day.' },
-    { virtue: 'charity', sub: 'generosity', q: 'St. Francis of Assisi practiced generosity by:',
-      answers: ['Giving up his wealth to serve the poor and live simply', 'Becoming wealthy to donate more', 'Only helping animals'],
-      correct: 0, explanation: 'Francis gave away everything to follow Christ and serve the poorest.' },
-    { virtue: 'charity', sub: 'generosity', q: '"God loves a cheerful giver" is from:',
-      answers: ['2 Corinthians 9:7', 'Matthew 5:5', 'John 3:16'],
-      correct: 0, explanation: 'St. Paul teaches that generosity should come from joy, not obligation.' },
-
-    // ===== CHARITY - Compassion =====
-    { virtue: 'charity', sub: 'compassion', q: 'What is compassion?',
-      answers: ['Feeling the suffering of others and being moved to help', 'Feeling sorry for yourself', 'Ignoring others\' pain'],
-      correct: 0, explanation: 'Compassion means "to suffer with" — sharing in others\' pain and acting to help.' },
-    { virtue: 'charity', sub: 'compassion', q: 'The Good Samaritan showed compassion by:',
-      answers: ['Stopping to help a stranger that others had ignored', 'Walking past like everyone else', 'Helping only because he was paid'],
-      correct: 0, explanation: 'The Samaritan crossed social boundaries to help someone in need.' },
-    { virtue: 'charity', sub: 'compassion', q: 'Jesus showed compassion when He:',
-      answers: ['Wept at the tomb of Lazarus', 'Ignored the sick', 'Turned away from sinners'],
-      correct: 0, explanation: 'Jesus\' tears show us that God deeply feels our pain and loss.' },
-    { virtue: 'charity', sub: 'compassion', q: 'Mother Teresa practiced compassion by:',
-      answers: ['Caring for the dying and poorest of the poor in Calcutta', 'Building wealthy institutions', 'Writing books about poverty'],
-      correct: 0, explanation: 'Mother Teresa saw Christ in every suffering person and served them with love.' },
-    { virtue: 'charity', sub: 'compassion', q: 'When a classmate is sad, compassion calls you to:',
-      answers: ['Listen to them and offer comfort', 'Tell them to get over it', 'Avoid them because sadness is uncomfortable'],
-      correct: 0, explanation: 'Being present and listening is one of the greatest acts of compassion.' },
-
-    // ===== CHARITY - Sacrifice =====
-    { virtue: 'charity', sub: 'sacrifice', q: 'What does sacrifice mean in Christian life?',
-      answers: ['Giving up something good for something greater, out of love', 'Losing things against your will', 'Never enjoying anything'],
-      correct: 0, explanation: 'Sacrifice is a free choice to give something up for love of God or neighbor.' },
-    { virtue: 'charity', sub: 'sacrifice', q: 'Jesus\' greatest sacrifice was:',
-      answers: ['Dying on the Cross for the salvation of humanity', 'Leaving Heaven', 'Fasting in the desert'],
-      correct: 0, explanation: 'The Cross is the ultimate act of sacrificial love — giving His life for us.' },
-    { virtue: 'charity', sub: 'sacrifice', q: 'A parent who works long hours to provide for their family shows:',
-      answers: ['Sacrificial love', 'Selfishness', 'Poor time management'],
-      correct: 0, explanation: 'Parents often sacrifice personal comfort and time out of love for their children.' },
-    { virtue: 'charity', sub: 'sacrifice', q: 'Lenten sacrifices help us to:',
-      answers: ['Grow closer to God by giving up comforts and focusing on prayer', 'Suffer for no reason', 'Show others how holy we are'],
-      correct: 0, explanation: 'Lenten sacrifice unites our small sufferings with Christ\'s and deepens our faith.' },
-    { virtue: 'charity', sub: 'sacrifice', q: 'St. Maximilian Kolbe sacrificed by:',
-      answers: ['Offering his life in place of a stranger at Auschwitz', 'Running away from danger', 'Sacrificing only his comfort'],
-      correct: 0, explanation: 'Fr. Kolbe volunteered to die so another prisoner could live — heroic sacrifice.' },
-
-    // ===== PRUDENCE - Discernment =====
-    { virtue: 'prudence', sub: 'discernment', q: 'What is discernment?',
-      answers: ['The ability to judge well and distinguish right from wrong', 'Making quick decisions without thinking', 'Always choosing the easiest option'],
-      correct: 0, explanation: 'Discernment is the wisdom to see clearly and choose rightly.' },
-    { virtue: 'prudence', sub: 'discernment', q: 'King Solomon asked God for:',
-      answers: ['Wisdom to discern good from evil and govern well', 'Wealth and power', 'A long life'],
-      correct: 0, explanation: 'Solomon\'s request for wisdom pleased God — discernment is a precious gift.' },
-    { virtue: 'prudence', sub: 'discernment', q: 'How do you practice discernment?',
-      answers: ['Pray, seek wise counsel, and reflect before deciding', 'Go with your first impulse', 'Let others decide for you'],
-      correct: 0, explanation: 'Good discernment combines prayer, advice, and careful reflection.' },
-    { virtue: 'prudence', sub: 'discernment', q: 'St. Ignatius of Loyola taught discernment through:',
-      answers: ['The Spiritual Exercises — examining inner movements of the soul', 'Strict rules only', 'Avoiding all decisions'],
-      correct: 0, explanation: 'Ignatian discernment helps us recognize God\'s voice among many impulses.' },
-    { virtue: 'prudence', sub: 'discernment', q: 'When friends pressure you to do something wrong, discernment helps you:',
-      answers: ['Recognize the pressure and choose what is right', 'Go along to fit in', 'Avoid having friends'],
-      correct: 0, explanation: 'Discernment gives clarity to resist peer pressure and choose good.' },
-
-    // ===== PRUDENCE - Foresight =====
-    { virtue: 'prudence', sub: 'foresight', q: 'What is foresight as a sub-virtue of prudence?',
-      answers: ['Thinking ahead about consequences before acting', 'Predicting the future', 'Worrying about everything'],
-      correct: 0, explanation: 'Foresight means wisely considering where our choices will lead.' },
-    { virtue: 'prudence', sub: 'foresight', q: 'The parable of the wise and foolish builders teaches:',
-      answers: ['Plan ahead and build your life on a strong foundation (Christ)', 'Building quickly is best', 'Location doesn\'t matter'],
-      correct: 0, explanation: 'The wise builder thought ahead and built on rock — foresight in action.' },
-    { virtue: 'prudence', sub: 'foresight', q: 'Joseph in Egypt showed foresight by:',
-      answers: ['Storing grain during years of plenty to prepare for famine', 'Ignoring Pharaoh\'s dreams', 'Spending resources immediately'],
-      correct: 0, explanation: 'Joseph\'s wise planning saved Egypt and his own family from starvation.' },
-    { virtue: 'prudence', sub: 'foresight', q: 'Before starting a big project, foresight tells us to:',
-      answers: ['Count the cost and plan carefully', 'Just start and figure it out later', 'Wait until the last minute'],
-      correct: 0, explanation: 'Jesus Himself said to count the cost before building a tower (Luke 14:28).' },
-    { virtue: 'prudence', sub: 'foresight', q: 'The parable of the ten virgins teaches foresight through:',
-      answers: ['Being prepared — the wise virgins brought extra oil', 'Sleeping is always bad', 'The bridegroom was late'],
-      correct: 0, explanation: 'The wise virgins\' preparation is a model of foresight and readiness.' },
-
-    // ===== PRUDENCE - Caution =====
-    { virtue: 'prudence', sub: 'caution', q: 'What is caution as a virtue?',
-      answers: ['Being careful and thoughtful to avoid unnecessary harm', 'Being afraid of everything', 'Never taking any risks'],
-      correct: 0, explanation: 'Virtuous caution is not cowardice — it\'s wisdom applied to avoiding harm.' },
-    { virtue: 'prudence', sub: 'caution', q: 'Jesus told His disciples to be:',
-      answers: ['Wise as serpents and innocent as doves', 'Fearful of everything', 'Reckless and bold'],
-      correct: 0, explanation: 'Jesus calls us to combine caution (wisdom) with goodness (innocence).' },
-    { virtue: 'prudence', sub: 'caution', q: 'When offered something that seems too good to be true, caution says:',
-      answers: ['Investigate carefully before committing', 'Jump in immediately', 'Reject everything suspicious'],
-      correct: 0, explanation: 'Caution helps us evaluate situations wisely before acting.' },
-    { virtue: 'prudence', sub: 'caution', q: 'The book of Proverbs frequently advises caution against:',
-      answers: ['Hasty decisions and the company of fools', 'All friendships', 'Any form of risk'],
-      correct: 0, explanation: 'Proverbs teaches that the wise person is cautious and turns from evil.' },
-    { virtue: 'prudence', sub: 'caution', q: 'Caution is different from cowardice because:',
-      answers: ['Caution weighs risks wisely; cowardice avoids all action from fear', 'They are the same thing', 'Caution means never acting'],
-      correct: 0, explanation: 'The cautious person still acts — but wisely and with care.' },
-
-    // ===== JUSTICE - Fairness =====
-    { virtue: 'justice', sub: 'fairness', q: 'What does fairness mean in Catholic teaching?',
-      answers: ['Giving each person what they are rightfully due', 'Treating everyone exactly the same regardless of need', 'Making sure you get your fair share first'],
-      correct: 0, explanation: 'Justice means giving others what they deserve — considering their dignity and needs.' },
-    { virtue: 'justice', sub: 'fairness', q: 'Jesus showed fairness by:',
-      answers: ['Welcoming all people — sinners, outcasts, rich and poor alike', 'Favoring the wealthy', 'Only helping His own people'],
-      correct: 0, explanation: 'Jesus treated every person with equal dignity as a child of God.' },
-    { virtue: 'justice', sub: 'fairness', q: 'When dividing tasks in a group, fairness means:',
-      answers: ['Distributing work according to ability so no one is overburdened', 'Giving all hard work to one person', 'Doing nothing yourself'],
-      correct: 0, explanation: 'Fair distribution considers each person\'s strengths and circumstances.' },
-    { virtue: 'justice', sub: 'fairness', q: 'The Catholic principle of the "universal destination of goods" teaches:',
-      answers: ['The earth\'s resources are meant for all people, not just the few', 'Private property is always wrong', 'Wealthy people earned everything they have'],
-      correct: 0, explanation: 'God created the earth\'s goods for everyone — this calls us to share justly.' },
-    { virtue: 'justice', sub: 'fairness', q: 'A fair judge must:',
-      answers: ['Consider all evidence impartially and without prejudice', 'Always side with the majority', 'Punish as harshly as possible'],
-      correct: 0, explanation: 'Justice requires impartiality and careful consideration of truth.' },
-
-    // ===== JUSTICE - Integrity =====
-    { virtue: 'justice', sub: 'integrity', q: 'What is integrity?',
-      answers: ['Being honest and consistent in your values, even when no one is watching', 'Only being good when others can see', 'Following rules to avoid punishment'],
-      correct: 0, explanation: 'Integrity means your actions match your beliefs, always.' },
-    { virtue: 'justice', sub: 'integrity', q: 'St. Thomas More showed integrity by:',
-      answers: ['Refusing to approve the King\'s divorce, even at the cost of his life', 'Going along with the King to keep his position', 'Running away from England'],
-      correct: 0, explanation: 'More chose death over compromising his conscience — supreme integrity.' },
-    { virtue: 'justice', sub: 'integrity', q: 'You find a wallet full of money. Integrity calls you to:',
-      answers: ['Return it to its owner', 'Keep the money since no one saw you', 'Take some and return the rest'],
-      correct: 0, explanation: 'Integrity means doing the right thing even when you could get away with wrong.' },
-    { virtue: 'justice', sub: 'integrity', q: 'A person of integrity:',
-      answers: ['Keeps their promises and tells the truth', 'Makes promises they don\'t intend to keep', 'Changes their values to fit each situation'],
-      correct: 0, explanation: 'Integrity means being consistent and trustworthy in word and action.' },
-    { virtue: 'justice', sub: 'integrity', q: 'The Eighth Commandment supports integrity by teaching:',
-      answers: ['You shall not bear false witness — do not lie', 'You shall not steal', 'Remember the Sabbath'],
-      correct: 0, explanation: 'The command against lying upholds the value of truth and integrity.' },
-
-    // ===== JUSTICE - Duty =====
-    { virtue: 'justice', sub: 'duty', q: 'What is duty in the Christian life?',
-      answers: ['Fulfilling your responsibilities to God, family, and community', 'Doing only what you feel like', 'Following orders without thinking'],
-      correct: 0, explanation: 'Duty means faithfully fulfilling the responsibilities God has given us.' },
-    { virtue: 'justice', sub: 'duty', q: 'Mary said "yes" to God at the Annunciation. This shows:',
-      answers: ['Faithful acceptance of her duty as Mother of God', 'She had no choice', 'It was an easy decision'],
-      correct: 0, explanation: 'Mary freely accepted her sacred duty with faith and courage.' },
-    { virtue: 'justice', sub: 'duty', q: 'A student\'s duty includes:',
-      answers: ['Studying diligently and respecting teachers and classmates', 'Only doing the minimum to pass', 'Letting others do the work'],
-      correct: 0, explanation: 'Each state of life has duties — students serve God by learning well.' },
-    { virtue: 'justice', sub: 'duty', q: 'The parable of the talents teaches about duty because:',
-      answers: ['God entrusts us with gifts and expects us to use them faithfully', 'We should hide our talents to keep them safe', 'Only talented people have duties'],
-      correct: 0, explanation: 'We have a duty to develop and use the gifts God gives us.' },
-    { virtue: 'justice', sub: 'duty', q: 'St. Joseph fulfilled his duty by:',
-      answers: ['Protecting and providing for Mary and Jesus faithfully', 'Seeking fame and recognition', 'Abandoning his family when things got difficult'],
-      correct: 0, explanation: 'Joseph is a model of quiet, faithful duty — he did what was right without seeking praise.' },
-
-    // ===== FORTITUDE - Endurance =====
-    { virtue: 'fortitude', sub: 'endurance', q: 'What is endurance?',
-      answers: ['The strength to persist through long-term difficulty', 'Never feeling pain', 'Physical strength only'],
-      correct: 0, explanation: 'Endurance is spiritual and moral strength to keep going through trials.' },
-    { virtue: 'fortitude', sub: 'endurance', q: 'The early Christians endured persecution because:',
-      answers: ['Their love for Christ was stronger than their fear of death', 'They enjoyed suffering', 'They had no other choice'],
-      correct: 0, explanation: 'The martyrs\' endurance came from deep love for Christ and hope in eternal life.' },
-    { virtue: 'fortitude', sub: 'endurance', q: 'St. Paul wrote about endurance saying:',
-      answers: ['Suffering produces endurance, endurance produces character, character produces hope', 'Avoid all suffering', 'The strong don\'t need endurance'],
-      correct: 0, explanation: 'Romans 5:3-4 shows how endurance builds character and strengthens hope.' },
-    { virtue: 'fortitude', sub: 'endurance', q: 'When you feel like giving up on doing good:',
-      answers: ['Remember that endurance in doing good will bear fruit', 'Stop trying — it\'s not worth it', 'Only do good when it\'s easy'],
-      correct: 0, explanation: 'Galatians 6:9 promises a harvest for those who don\'t give up.' },
-    { virtue: 'fortitude', sub: 'endurance', q: 'Endurance is like a muscle because:',
-      answers: ['It grows stronger through practice and use', 'It can\'t be developed', 'Only some people are born with it'],
-      correct: 0, explanation: 'Every challenge we endure strengthens us for the next one.' },
-
-    // ===== FORTITUDE - Patience =====
-    { virtue: 'fortitude', sub: 'patience', q: 'What is patience?',
-      answers: ['Bearing difficulties calmly without complaint, trusting in God\'s timing', 'Waiting passively and doing nothing', 'Suppressing anger'],
-      correct: 0, explanation: 'Patience is active trust in God\'s timing while persevering peacefully.' },
-    { virtue: 'fortitude', sub: 'patience', q: 'Jesus showed patience when:',
-      answers: ['He endured the mockery and suffering of the Passion without retaliation', 'He always got immediate results', 'He never had to wait for anything'],
-      correct: 0, explanation: 'Christ\'s patience during His Passion is the ultimate model of this virtue.' },
-    { virtue: 'fortitude', sub: 'patience', q: 'When stuck in a long line or traffic, patience calls us to:',
-      answers: ['Accept the delay peacefully and use the time for prayer or reflection', 'Lose our temper', 'Cut ahead of others'],
-      correct: 0, explanation: 'Small daily frustrations are opportunities to practice patience.' },
-    { virtue: 'fortitude', sub: 'patience', q: 'The fruit of the Spirit includes patience because:',
-      answers: ['The Holy Spirit helps us bear with others and trust God\'s plan', 'Being patient is just a natural personality trait', 'Only patient people receive the Spirit'],
-      correct: 0, explanation: 'Patience is a gift of the Spirit that grows as we cooperate with grace.' },
-    { virtue: 'fortitude', sub: 'patience', q: 'St. Monica practiced patience by:',
-      answers: ['Praying for her son Augustine\'s conversion for over 17 years', 'Giving up after a few months', 'Forcing her son to believe'],
-      correct: 0, explanation: 'Monica\'s decades of patient prayer were finally answered — Augustine became a saint.' },
-
-    // ===== FORTITUDE - Bravery =====
-    { virtue: 'fortitude', sub: 'bravery', q: 'How is bravery different from recklessness?',
-      answers: ['Bravery faces danger for a good reason; recklessness ignores danger foolishly', 'They are the same', 'Bravery means never being scared'],
-      correct: 0, explanation: 'True bravery is purposeful courage, not foolish risk-taking.' },
-    { virtue: 'fortitude', sub: 'bravery', q: 'The apostles showed bravery after Pentecost by:',
-      answers: ['Preaching boldly despite threats of arrest and death', 'Hiding in the upper room', 'Only preaching to friendly audiences'],
-      correct: 0, explanation: 'The Holy Spirit transformed the apostles from fearful to fearlessly brave.' },
-    { virtue: 'fortitude', sub: 'bravery', q: 'Standing up for someone being mistreated requires bravery because:',
-      answers: ['You might face criticism or retaliation, but it\'s the right thing to do', 'It\'s always easy', 'It doesn\'t require any courage'],
-      correct: 0, explanation: 'Moral bravery means doing right even when it costs you.' },
-    { virtue: 'fortitude', sub: 'bravery', q: 'St. Maximilian Kolbe showed bravery at Auschwitz by:',
-      answers: ['Volunteering to take the place of a condemned man', 'Escaping the camp', 'Hiding from the guards'],
-      correct: 0, explanation: 'Kolbe\'s brave self-sacrifice saved another man\'s life.' },
-    { virtue: 'fortitude', sub: 'bravery', q: 'Joshua was told to "be strong and courageous" because:',
-      answers: ['God was with him as he led Israel into the Promised Land', 'He was already fearless', 'He didn\'t need God\'s help'],
-      correct: 0, explanation: 'God calls us to bravery and promises to be with us always.' },
-
-    // ===== TEMPERANCE - Moderation =====
-    { virtue: 'temperance', sub: 'moderation', q: 'What is moderation?',
-      answers: ['Using good things in the right amount, without excess', 'Never enjoying anything', 'Indulging as much as possible'],
-      correct: 0, explanation: 'Moderation means enjoying God\'s gifts properly, without going to extremes.' },
-    { virtue: 'temperance', sub: 'moderation', q: 'Jesus turned water into wine at Cana, teaching us that:',
-      answers: ['Good things are meant to be enjoyed in moderation and with gratitude', 'Wine is always wrong', 'There are no limits on celebration'],
-      correct: 0, explanation: 'Jesus blessed celebration — moderation means enjoying gifts with thanksgiving.' },
-    { virtue: 'temperance', sub: 'moderation', q: 'Moderation with technology means:',
-      answers: ['Using phones and screens in balance with prayer, exercise, and relationships', 'Never using technology', 'Using screens as much as you want'],
-      correct: 0, explanation: 'Technology is a tool — moderation helps us use it without it controlling us.' },
-    { virtue: 'temperance', sub: 'moderation', q: 'The virtue of moderation helps us with food by:',
-      answers: ['Eating enough to nourish our bodies without gluttony', 'Starving ourselves', 'Eating as much as we can'],
-      correct: 0, explanation: 'Our bodies are temples of the Holy Spirit — moderation cares for them properly.' },
-    { virtue: 'temperance', sub: 'moderation', q: 'Aristotle, whose ideas influenced Catholic teaching, called moderation:',
-      answers: ['The golden mean — the balance between excess and deficiency', 'Impossible to achieve', 'Only for philosophers'],
-      correct: 0, explanation: 'The golden mean reminds us that virtue lies in balance, not extremes.' },
-
-    // ===== TEMPERANCE - Humility =====
-    { virtue: 'temperance', sub: 'humility', q: 'What is humility?',
-      answers: ['Knowing your true worth before God — neither too proud nor too self-deprecating', 'Thinking you are worthless', 'Never accepting compliments'],
-      correct: 0, explanation: 'Humility is honest self-knowledge — recognizing our gifts come from God.' },
-    { virtue: 'temperance', sub: 'humility', q: 'Jesus showed humility by:',
-      answers: ['Washing His disciples\' feet at the Last Supper', 'Demanding to be served', 'Only associating with important people'],
-      correct: 0, explanation: 'The King of Kings knelt to serve — the ultimate act of humility.' },
-    { virtue: 'temperance', sub: 'humility', q: 'Mary\'s Magnificat shows humility because:',
-      answers: ['She praised God for His greatness and acknowledged her lowliness', 'She boasted about being chosen', 'She took credit for God\'s work'],
-      correct: 0, explanation: 'Mary\'s song gives all glory to God while humbly accepting her role.' },
-    { virtue: 'temperance', sub: 'humility', q: 'C.S. Lewis said humility is not:',
-      answers: ['Thinking less of yourself, but thinking of yourself less', 'A weakness', 'Only for religious people'],
-      correct: 0, explanation: 'True humility focuses outward — on God and others, not on self.' },
-    { virtue: 'temperance', sub: 'humility', q: 'When you achieve something great, humility calls you to:',
-      answers: ['Thank God and the people who helped you succeed', 'Take all the credit', 'Downplay your achievement as nothing'],
-      correct: 0, explanation: 'Humble people celebrate gifts while recognizing God as the source of all good.' },
-
-    // ===== TEMPERANCE - Self-Control =====
-    { virtue: 'temperance', sub: 'selfControl', q: 'What is self-control?',
-      answers: ['Mastering your impulses and desires through reason and grace', 'Suppressing all emotions', 'Never having any desires'],
-      correct: 0, explanation: 'Self-control means directing our desires toward good, not eliminating them.' },
-    { virtue: 'temperance', sub: 'selfControl', q: 'Jesus demonstrated self-control when:',
-      answers: ['He resisted Satan\'s three temptations in the desert', 'He never felt temptation', 'He gave in to anger at the merchants'],
-      correct: 0, explanation: 'Jesus was truly tempted but chose God\'s will — perfect self-control.' },
-    { virtue: 'temperance', sub: 'selfControl', q: 'When you\'re angry and want to say something hurtful, self-control means:',
-      answers: ['Pausing, breathing, and choosing words that are truthful but kind', 'Saying whatever you feel', 'Never expressing anger at all'],
-      correct: 0, explanation: 'Self-control doesn\'t deny emotions — it channels them constructively.' },
-    { virtue: 'temperance', sub: 'selfControl', q: 'St. Paul compared the Christian life to:',
-      answers: ['An athletic race that requires discipline and self-control', 'A relaxing vacation', 'A game of chance'],
-      correct: 0, explanation: '1 Corinthians 9:25 — athletes exercise self-control; so should we in all things.' },
-    { virtue: 'temperance', sub: 'selfControl', q: 'Fasting is a practice of self-control because:',
-      answers: ['It trains us to master our appetites and depend on God', 'It punishes the body', 'It is outdated and unnecessary'],
-      correct: 0, explanation: 'Fasting strengthens our will and turns our hearts toward God.' }
-  ];
+  // Combined lookup for backward compat
+  const VIRTUES = { ...CARDINAL_VIRTUES, ...THEOLOGICAL_VIRTUES };
 
   const ENEMY_ACTIONS = [
     { name: 'Advance', text: 'All enemy ships move one sector toward the nearest base.' },
@@ -494,11 +89,11 @@
       });
     }
 
-    // Build virtue progress tracker
-    const virtueProgress = {};
-    Object.keys(VIRTUES).forEach(v => {
-      virtueProgress[v] = {};
-      VIRTUES[v].subVirtues.forEach(s => { virtueProgress[v][s] = 0; });
+    // Build cardinal virtue progress tracker (acquired through practice)
+    const cardinalProgress = {};
+    Object.keys(CARDINAL_VIRTUES).forEach(v => {
+      cardinalProgress[v] = {};
+      CARDINAL_VIRTUES[v].subVirtues.forEach(s => { cardinalProgress[v][s] = 0; });
     });
 
     return {
@@ -511,38 +106,65 @@
       selectedShip: null,
       enemiesDefeated: 0,
       totalEnemySpawned: 6,
-      phase: 'play', // play, selectTarget, selectSector, virtueChallenge, gameOver
+      phase: 'play', // play, selectTarget, selectSector, virtueChallenge, moralChoice, gameOver
       message: null,
       basesIntact: { 1: true, 5: true, 9: true },
       baseHealth: { 1: 3, 5: 3, 9: 3 },
       sunday: false,
-      virtueProgress,
-      virtuesMastered: [],
-      answeredQuestions: [], // indices into VIRTUE_QUESTIONS that were answered correctly
-      currentQuestion: null  // currently displayed virtue question
+      // Cardinal virtues (acquired)
+      cardinalProgress,
+      cardinalsMastered: [],
+      // Theological virtues (infused through grace)
+      theologicalLevels: { faith: 0, hope: 0, charity: 0 }, // 0-3, received on Sundays
+      // Gifts of the Holy Spirit (received)
+      giftsReceived: [],
+      // Fruits of the Holy Spirit (manifest)
+      fruitsUnlocked: [],
+      // Grace system
+      graceMeter: 0,
+      fidelity: 1.0, // 0-1, maintained by praying regularly
+      merit: 0,
+      prayedThisDay: false,
+      // Question tracking
+      answeredQuestions: [],
+      currentQuestion: null,
+      currentMoralChoice: null,
+      sundayReflectionIndex: 0
     };
   }
 
   // ===== Virtue Helpers =====
   function isSubVirtueMastered(virtue, sub) {
-    return state.virtueProgress[virtue][sub] >= 3;
+    return state.cardinalProgress[virtue] && state.cardinalProgress[virtue][sub] >= 2;
   }
 
-  function isVirtueMastered(virtue) {
-    return VIRTUES[virtue].subVirtues.every(s => isSubVirtueMastered(virtue, s));
+  function isCardinalMastered(virtue) {
+    return CARDINAL_VIRTUES[virtue].subVirtues.every(s => isSubVirtueMastered(virtue, s));
+  }
+
+  function isTheologicalReceived(virtue) {
+    return state.theologicalLevels[virtue] >= 3;
   }
 
   function checkVirtueMastery() {
-    Object.keys(VIRTUES).forEach(v => {
-      if (!state.virtuesMastered.includes(v) && isVirtueMastered(v)) {
-        state.virtuesMastered.push(v);
-        applyVirtueBonus(v);
-        showCard('Virtue Mastered!', `${VIRTUES[v].name} mastered! Bonus: ${VIRTUES[v].bonus}`);
+    // Check cardinal virtues (acquired through practice)
+    Object.keys(CARDINAL_VIRTUES).forEach(v => {
+      if (!state.cardinalsMastered.includes(v) && isCardinalMastered(v)) {
+        state.cardinalsMastered.push(v);
+        showCard('Cardinal Virtue Mastered!', `${CARDINAL_VIRTUES[v].name} mastered through practice! Bonus: ${CARDINAL_VIRTUES[v].bonus}`);
       }
     });
+    // Check theological virtue bonuses (received through grace)
+    Object.keys(THEOLOGICAL_VIRTUES).forEach(v => {
+      if (isTheologicalReceived(v)) {
+        applyTheologicalBonus(v);
+      }
+    });
+    // Check gift unlocks
+    checkGiftsAndFruits();
   }
 
-  function applyVirtueBonus(virtue) {
+  function applyTheologicalBonus(virtue) {
     switch (virtue) {
       case 'faith':
         state.playerShips.forEach(s => { s.maxCharge = 4; });
@@ -553,8 +175,52 @@
     }
   }
 
+  function checkGiftsAndFruits() {
+    // Gifts unlock when corresponding theological virtue reaches level 3
+    GIFTS_OF_SPIRIT.forEach(gift => {
+      if (state.giftsReceived.includes(gift.id)) return;
+      const perfects = gift.perfects;
+      const theological = THEOLOGICAL_VIRTUES[perfects];
+      const cardinal = CARDINAL_VIRTUES[perfects];
+      if (theological && isTheologicalReceived(perfects)) {
+        state.giftsReceived.push(gift.id);
+        showCard('Gift of the Holy Spirit!', `You have received the Gift of ${gift.name}! ${gift.description}`);
+      } else if (cardinal && state.cardinalsMastered.includes(perfects)) {
+        state.giftsReceived.push(gift.id);
+        showCard('Gift of the Holy Spirit!', `You have received the Gift of ${gift.name}! ${gift.description}`);
+      }
+    });
+    // Fruits unlock based on specific conditions
+    checkFruitUnlocks();
+  }
+
+  function checkFruitUnlocks() {
+    FRUITS_OF_SPIRIT.forEach(fruit => {
+      if (state.fruitsUnlocked.includes(fruit.id)) return;
+      const cond = fruit.unlockCondition;
+      let unlocked = false;
+      if (cond.includes('mastered')) {
+        const virtue = cond.split(' ')[0];
+        unlocked = state.cardinalsMastered.includes(virtue);
+      } else if (cond.includes('>=')) {
+        const parts = cond.split(' >= ');
+        const threshold = parseInt(parts[1]);
+        if (parts[0].includes('.')) {
+          const [v, s] = parts[0].split('.');
+          unlocked = (state.cardinalProgress[v] && state.cardinalProgress[v][s] >= threshold);
+        } else {
+          unlocked = (state.theologicalLevels[parts[0]] >= threshold);
+        }
+      }
+      if (unlocked) {
+        state.fruitsUnlocked.push(fruit.id);
+        state.merit++;
+      }
+    });
+  }
+
   function getRandomQuestion() {
-    // Get unanswered questions, or if all answered, pick any
+    // Only cardinal virtue questions (theological are received, not studied)
     const unanswered = VIRTUE_QUESTIONS.map((q, i) => i)
       .filter(i => !state.answeredQuestions.includes(i));
     const pool = unanswered.length > 0 ? unanswered : VIRTUE_QUESTIONS.map((_, i) => i);
@@ -572,6 +238,7 @@
     const question = VIRTUE_QUESTIONS[qIndex];
     state.currentQuestion = { index: qIndex, ...question };
     state.phase = 'virtueChallenge';
+    state.prayedThisDay = true;
     showVirtueQuestion(state.currentQuestion);
   }
 
@@ -581,21 +248,21 @@
 
     const correct = answerIndex === q.correct;
     const ship = state.playerShips[state.selectedShip];
-    const isSunday = state.sunday;
 
     if (correct) {
-      const gain = isSunday ? 2 : 1;
-      state.virtueProgress[q.virtue][q.sub] = Math.min(3, state.virtueProgress[q.virtue][q.sub] + gain);
+      state.cardinalProgress[q.virtue][q.sub] = Math.min(2, state.cardinalProgress[q.virtue][q.sub] + 1);
       state.answeredQuestions.push(q.index);
+      state.graceMeter++;
+      state.merit++;
 
-      const subName = VIRTUES[q.virtue].subNames[q.sub];
-      const progress = state.virtueProgress[q.virtue][q.sub];
+      const subName = CARDINAL_VIRTUES[q.virtue].subNames[q.sub];
+      const progress = state.cardinalProgress[q.virtue][q.sub];
       showVirtueResult(true,
-        `Correct! +${gain} ${VIRTUES[q.virtue].name} (${subName}: ${progress}/3)`,
+        `Correct! +1 ${CARDINAL_VIRTUES[q.virtue].name} (${subName}: ${progress}/2)`,
         q.explanation);
 
       // Charity bonus: heal adjacent allies when praying
-      if (state.virtuesMastered.includes('charity') && ship) {
+      if (isTheologicalReceived('charity') && ship) {
         const adj = ADJACENCY[ship.sector];
         state.playerShips.filter(s => !s.destroyed && adj.includes(s.sector))
           .forEach(s => { s.health = Math.min(s.maxHealth, s.health + 1); });
@@ -612,6 +279,86 @@
     if (ship) ship.acted = true;
     state.currentQuestion = null;
     state.phase = 'play';
+  }
+
+  // ===== Moral Choice System (for attacks) =====
+  function startMoralChoice(ship) {
+    const choice = MORAL_CHOICES[Math.floor(Math.random() * MORAL_CHOICES.length)];
+    state.currentMoralChoice = { ...choice, shipId: ship.id };
+    state.phase = 'moralChoice';
+    showMoralChoice(state.currentMoralChoice);
+  }
+
+  function resolveMoralChoice(choseGreaterGood) {
+    const mc = state.currentMoralChoice;
+    if (!mc) return;
+    const ship = state.playerShips[mc.shipId];
+    if (!ship) return;
+
+    const enemies = state.enemyShips.filter(e => e.sector === ship.sector && e.deployed && !e.destroyed);
+    if (enemies.length === 0) { state.phase = 'play'; return; }
+
+    let dmg = Math.max(1, ship.charge);
+    // Justice bonus: +1 attack damage
+    if (state.cardinalsMastered.includes('justice')) dmg += 1;
+
+    let bonusText = '';
+    if (choseGreaterGood) {
+      dmg += 1; // Greater good bonus damage
+      // Earn cardinal virtue progress
+      if (state.cardinalProgress[mc.virtue] && state.cardinalProgress[mc.virtue][mc.sub] !== undefined) {
+        state.cardinalProgress[mc.virtue][mc.sub] = Math.min(2, state.cardinalProgress[mc.virtue][mc.sub] + 1);
+      }
+      state.merit++;
+      state.graceMeter++;
+      bonusText = ' (Greater Good +1)';
+      checkVirtueMastery();
+    }
+
+    const target = enemies[0];
+    target.health -= dmg;
+    // Temperance bonus: keep 1 charge instead of resetting to 0
+    ship.charge = state.cardinalsMastered.includes('temperance') ? Math.min(1, ship.charge) : 0;
+    ship.acted = true;
+
+    if (target.health <= 0) {
+      target.destroyed = true;
+      state.enemiesDefeated++;
+      showMessage(`${ship.name} destroys ${target.name}! (${dmg} dmg${bonusText})`);
+    } else {
+      showMessage(`${ship.name} hits ${target.name} for ${dmg} dmg${bonusText}. (${target.health} HP left)`);
+    }
+
+    state.currentMoralChoice = null;
+    state.phase = 'play';
+    updateUI();
+  }
+
+  // ===== Sunday Rest System =====
+  function doSundayRest() {
+    // Auto-heal all ships +2
+    state.playerShips.filter(s => !s.destroyed).forEach(s => {
+      s.health = Math.min(s.maxHealth, s.health + 2);
+    });
+    // Theological virtue growth (infused by grace)
+    const fidelityBonus = state.prayedThisDay ? 1 : 0;
+    if (state.fidelity < 0.5) {
+      // Low fidelity — theological virtues don't grow
+    } else {
+      // Rotate through Faith, Hope, Charity
+      const theolKeys = ['faith', 'hope', 'charity'];
+      const nextTheol = theolKeys[(state.day - 1) % 3];
+      const gain = state.fidelity >= 0.8 ? 1 : 1; // Always +1, fidelity affects whether it happens
+      state.theologicalLevels[nextTheol] = Math.min(3, state.theologicalLevels[nextTheol] + gain);
+      state.graceMeter += 2;
+    }
+    // Show reflection
+    const reflection = SUNDAY_REFLECTIONS[state.sundayReflectionIndex % SUNDAY_REFLECTIONS.length];
+    state.sundayReflectionIndex++;
+    showSundayReflection(reflection);
+    // Update fidelity based on prayer habits
+    state.prayedThisDay = false;
+    checkVirtueMastery();
   }
 
   // ===== Board Rendering =====
@@ -846,7 +593,8 @@
     const actions = [];
 
     if (isSunday) {
-      actions.push({ label: 'Pray (Virtue x2)', id: 'pray', enabled: !ship.acted });
+      // Sunday is rest — no individual ship actions; handled by End Turn
+      actions.push({ label: 'Sunday Rest (End Turn)', id: 'sundayRest', enabled: true });
     } else {
       if (turn === 'Lauds') {
         actions.push({ label: 'Pray (Virtue Challenge)', id: 'pray', enabled: !ship.acted });
@@ -907,23 +655,9 @@
       case 'attack': {
         const enemies = state.enemyShips.filter(e => e.sector === ship.sector && e.deployed && !e.destroyed);
         if (enemies.length === 0) return;
-        let dmg = Math.max(1, ship.charge);
-        // Justice bonus: +1 attack damage
-        if (state.virtuesMastered.includes('justice')) dmg += 1;
-        const target = enemies[0];
-        target.health -= dmg;
-        // Temperance bonus: keep 1 charge instead of resetting to 0
-        ship.charge = state.virtuesMastered.includes('temperance') ? Math.min(1, ship.charge) : 0;
-        ship.acted = true;
-        const bonusText = state.virtuesMastered.includes('justice') ? ' (Justice +1)' : '';
-        if (target.health <= 0) {
-          target.destroyed = true;
-          state.enemiesDefeated++;
-          showMessage(`${ship.name} destroys ${target.name}! (${dmg} dmg${bonusText})`);
-        } else {
-          showMessage(`${ship.name} hits ${target.name} for ${dmg} dmg${bonusText}. (${target.health} HP left)`);
-        }
-        break;
+        // Show moral choice before dealing damage
+        startMoralChoice(ship);
+        return; // Wait for moral choice resolution
       }
 
       case 'charge':
@@ -947,6 +681,10 @@
         ship.acted = true;
         showMessage(`${ship.name} rests. Healed to ${ship.health}/${ship.maxHealth} HP.`);
         break;
+
+      case 'sundayRest':
+        doSundayRest();
+        return; // Sunday handles its own flow
 
       case 'virtueHeal':
         if (state.virtuePoints >= 2) {
@@ -1031,7 +769,7 @@
             const t = targets[Math.floor(Math.random() * targets.length)];
             let dmg = 1;
             // Fortitude bonus: reduce incoming damage by 1 (min 0)
-            if (state.virtuesMastered.includes('fortitude')) dmg = Math.max(0, dmg - 1);
+            if (state.cardinalsMastered.includes('fortitude')) dmg = Math.max(0, dmg - 1);
             t.health -= dmg;
             if (t.health <= 0) { t.health = 0; t.destroyed = true; }
           }
@@ -1063,7 +801,7 @@
           targets.forEach(t => {
             let dmg = 2;
             // Fortitude bonus: reduce incoming damage by 1
-            if (state.virtuesMastered.includes('fortitude')) dmg = Math.max(1, dmg - 1);
+            if (state.cardinalsMastered.includes('fortitude')) dmg = Math.max(1, dmg - 1);
             t.health -= dmg;
             if (t.health <= 0) { t.health = 0; t.destroyed = true; }
           });
@@ -1152,12 +890,33 @@
 
   // ===== Turn / Day Management =====
   function endTurn() {
+    // Track fidelity based on prayer (Lauds and None turns)
+    const turn = TURNS[state.turnIndex];
+    if (turn === 'Lauds' || turn === 'None') {
+      const anyPrayed = state.playerShips.some(s => s.acted);
+      if (!anyPrayed) {
+        state.fidelity = Math.max(0, state.fidelity - 0.1); // Missed prayer opportunity
+      }
+    }
+
     // Reset acted flags
     state.playerShips.forEach(s => s.acted = false);
 
+    // Sunday: skip all turns at once (handled by doSundayRest)
+    if (state.sunday) {
+      state.turnIndex = 0;
+      state.day++;
+      state.sunday = (state.day % 7 === 0);
+      if (state.day > MAX_DAYS) { endGame(true); return; }
+      state.selectedShip = null;
+      state.phase = 'play';
+      hideActionPanel();
+      updateUI();
+      return;
+    }
+
     // Enemy phase (after player acts, except Lauds and Compline)
-    const turn = TURNS[state.turnIndex];
-    if (!state.sunday && turn !== 'Lauds' && turn !== 'Compline') {
+    if (turn !== 'Lauds' && turn !== 'Compline') {
       enemyTurn();
     }
 
@@ -1167,6 +926,7 @@
       state.turnIndex = 0;
       state.day++;
       state.sunday = (state.day % 7 === 0);
+      state.prayedThisDay = false;
 
       if (state.day > MAX_DAYS) {
         endGame(true);
@@ -1176,7 +936,7 @@
 
     // Prudence bonus: preview next enemy action
     const nextTurn = TURNS[state.turnIndex];
-    if (state.virtuesMastered.includes('prudence') && !state.sunday &&
+    if (state.cardinalsMastered.includes('prudence') && !state.sunday &&
         nextTurn !== 'Lauds' && nextTurn !== 'Compline') {
       const preview = ENEMY_ACTIONS[Math.floor(Math.random() * ENEMY_ACTIONS.length)];
       state.prudencePreview = preview;
@@ -1198,9 +958,11 @@
     document.getElementById('gameover-message').textContent = won
       ? (allDefeated ? 'Total Victory! You defeated all enemy ships and protected every colony!' : 'You survived 9 days and defended the colonies!')
       : 'All bases have fallen. The colonies are lost.';
-    const masteredNames = state.virtuesMastered.map(v => VIRTUES[v].name).join(', ') || 'None';
+    const cardinals = state.cardinalsMastered.map(v => CARDINAL_VIRTUES[v].name);
+    const theols = Object.entries(state.theologicalLevels).filter(([,v]) => v >= 3).map(([k]) => THEOLOGICAL_VIRTUES[k].name);
+    const allVirtues = [...theols, ...cardinals].join(', ') || 'None';
     document.getElementById('gameover-stats').textContent =
-      `Day ${Math.min(state.day, MAX_DAYS)} | Enemies: ${state.enemiesDefeated}/24 | Virtues Mastered: ${masteredNames}`;
+      `Day ${Math.min(state.day, MAX_DAYS)} | Enemies: ${state.enemiesDefeated}/24 | Gifts: ${state.giftsReceived.length}/7 | Fruits: ${state.fruitsUnlocked.length}/12 | Virtues: ${allVirtues}`;
 
     showScreen('gameover-screen');
   }
@@ -1237,13 +999,33 @@
     overlay.classList.remove('hidden');
   }
 
+  function showMoralChoice(mc) {
+    const overlay = document.getElementById('moral-choice-overlay');
+    document.getElementById('moral-scenario').textContent = mc.scenario;
+    const lesserBtn = document.getElementById('moral-lesser');
+    const greaterBtn = document.getElementById('moral-greater');
+    lesserBtn.textContent = mc.lesserGood;
+    greaterBtn.textContent = mc.greaterGood;
+    lesserBtn.onclick = () => { overlay.classList.add('hidden'); resolveMoralChoice(false); };
+    greaterBtn.onclick = () => { overlay.classList.add('hidden'); resolveMoralChoice(true); };
+    overlay.classList.remove('hidden');
+  }
+
+  function showSundayReflection(reflection) {
+    const overlay = document.getElementById('sunday-overlay');
+    document.getElementById('sunday-title').textContent = reflection.title;
+    document.getElementById('sunday-text').textContent = reflection.text;
+    overlay.classList.remove('hidden');
+  }
+
   function showVirtueQuestion(q) {
     const overlay = document.getElementById('virtue-overlay');
     const header = document.getElementById('virtue-question-header');
     const text = document.getElementById('virtue-question-text');
     const answersDiv = document.getElementById('virtue-answers');
 
-    header.textContent = `${VIRTUES[q.virtue].name} — ${VIRTUES[q.virtue].subNames[q.sub]}`;
+    const virtueData = CARDINAL_VIRTUES[q.virtue];
+    header.textContent = `${virtueData.name} — ${virtueData.subNames[q.sub]}`;
     text.textContent = q.q;
     answersDiv.innerHTML = '';
 
@@ -1319,21 +1101,41 @@
       <div class="status-ship player"><span>Day</span><span>${state.day} of ${MAX_DAYS}</span></div>
     </div>`;
 
-    // Virtue Progress Tree
-    html += '<div class="status-section"><h4>Virtue Progress</h4><div class="virtue-tree">';
-    Object.keys(VIRTUES).forEach(v => {
-      const virtue = VIRTUES[v];
-      const mastered = state.virtuesMastered.includes(v);
+    // Theological Virtues (Received through grace)
+    html += '<div class="status-section"><h4>Theological Virtues (Infused)</h4><div class="virtue-tree">';
+    Object.keys(THEOLOGICAL_VIRTUES).forEach(v => {
+      const virtue = THEOLOGICAL_VIRTUES[v];
+      const level = state.theologicalLevels[v];
+      const received = level >= 3;
+      let pips = '';
+      for (let i = 0; i < 3; i++) {
+        pips += `<span class="sub-pip ${i < level ? 'filled' : ''}"></span>`;
+      }
+      html += `<div class="virtue-row ${received ? 'mastered' : 'unmastered'}">
+        <div class="virtue-row-header">
+          <span class="virtue-row-name ${received ? 'mastered' : 'unmastered'}">${virtue.name}${received ? ' ✓' : ''}</span>
+          <span class="virtue-row-bonus">${received ? virtue.bonusShort + ' ACTIVE' : 'Received through grace'}</span>
+        </div>
+        <div class="sub-virtues"><div class="sub-virtue"><div class="sub-virtue-name">Grace Level</div><div class="sub-virtue-pips">${pips}</div></div></div>
+      </div>`;
+    });
+    html += '</div></div>';
+
+    // Cardinal Virtues (Acquired through practice)
+    html += '<div class="status-section"><h4>Cardinal Virtues (Acquired)</h4><div class="virtue-tree">';
+    Object.keys(CARDINAL_VIRTUES).forEach(v => {
+      const virtue = CARDINAL_VIRTUES[v];
+      const mastered = state.cardinalsMastered.includes(v);
       html += `<div class="virtue-row ${mastered ? 'mastered' : 'unmastered'}">
         <div class="virtue-row-header">
           <span class="virtue-row-name ${mastered ? 'mastered' : 'unmastered'}">${virtue.name}${mastered ? ' ✓' : ''}</span>
           <span class="virtue-row-bonus">${mastered ? virtue.bonusShort + ' ACTIVE' : virtue.bonus}</span>
         </div>
-        <div class="sub-virtues">`;
+        <div class="sub-virtues" style="flex-wrap:wrap;">`;
       virtue.subVirtues.forEach(sub => {
-        const progress = state.virtueProgress[v][sub];
+        const progress = state.cardinalProgress[v][sub];
         let pips = '';
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
           pips += `<span class="sub-pip ${i < progress ? 'filled' : ''}"></span>`;
         }
         html += `<div class="sub-virtue">
@@ -1344,6 +1146,32 @@
       html += '</div></div>';
     });
     html += '</div></div>';
+
+    // Gifts of the Holy Spirit
+    html += '<div class="status-section"><h4>Gifts of the Holy Spirit</h4>';
+    GIFTS_OF_SPIRIT.forEach(gift => {
+      const received = state.giftsReceived.includes(gift.id);
+      html += `<div class="status-ship ${received ? 'player' : ''}">
+        <span>${gift.name}</span>
+        <span>${received ? 'Received' : 'Not yet received'}</span>
+      </div>`;
+    });
+    html += '</div>';
+
+    // Fruits of the Holy Spirit
+    html += '<div class="status-section"><h4>Fruits of the Holy Spirit</h4><div class="fruit-grid">';
+    FRUITS_OF_SPIRIT.forEach(fruit => {
+      const unlocked = state.fruitsUnlocked.includes(fruit.id);
+      html += `<div class="fruit-item ${unlocked ? 'unlocked' : ''}">${fruit.name}</div>`;
+    });
+    html += '</div></div>';
+
+    // Grace & Merit
+    html += `<div class="status-section"><h4>Grace</h4>
+      <div class="status-ship player"><span>Grace Meter</span><span>${state.graceMeter}</span></div>
+      <div class="status-ship player"><span>Fidelity</span><span>${Math.round(state.fidelity * 100)}%</span></div>
+      <div class="status-ship player"><span>Merit</span><span>${state.merit}</span></div>
+    </div>`;
 
     details.innerHTML = html;
     overlay.classList.remove('hidden');
@@ -1431,6 +1259,12 @@
     document.getElementById('virtue-result-dismiss').addEventListener('click', () => {
       document.getElementById('virtue-result-overlay').classList.add('hidden');
       updateUI();
+    });
+
+    // Sunday reflection dismiss
+    document.getElementById('sunday-dismiss').addEventListener('click', () => {
+      document.getElementById('sunday-overlay').classList.add('hidden');
+      endTurn(); // Advance past Sunday
     });
 
     // Toggle ship tray

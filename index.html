@@ -73,22 +73,49 @@
         </ul>
       </section>
       <section>
-        <h3>Virtues &amp; Sub-Virtues</h3>
-        <p>When you pray, you face a Virtue Challenge &mdash; a question about one of 7 virtues. Answer correctly to earn progress toward mastering that virtue's sub-virtues (3 correct answers each). Master all 3 sub-virtues to unlock a powerful combat bonus!</p>
+        <h3>Theological Virtues (Received)</h3>
+        <p>Faith, Hope, and Charity are <em>supernatural virtues</em> &mdash; gifts infused by God, not earned by effort. They grow through grace on Sundays and through fidelity to prayer.</p>
         <ul>
-          <li><strong>Faith</strong> (Trust, Devotion, Witness) &ndash; +1 max charge</li>
-          <li><strong>Hope</strong> (Perseverance, Optimism, Courage) &ndash; +1 max health</li>
-          <li><strong>Charity</strong> (Generosity, Compassion, Sacrifice) &ndash; Pray heals allies</li>
-          <li><strong>Prudence</strong> (Discernment, Foresight, Caution) &ndash; Preview enemy moves</li>
-          <li><strong>Justice</strong> (Fairness, Integrity, Duty) &ndash; +1 attack damage</li>
-          <li><strong>Fortitude</strong> (Endurance, Patience, Bravery) &ndash; Reduce damage taken</li>
-          <li><strong>Temperance</strong> (Moderation, Humility, Self-Control) &ndash; Keep charge after attacking</li>
+          <li><strong>Faith</strong> &ndash; Level 3 grants +1 max charge</li>
+          <li><strong>Hope</strong> &ndash; Level 3 grants +1 max health</li>
+          <li><strong>Charity</strong> &ndash; Level 3 allows prayer to heal allies</li>
         </ul>
-        <p>Wrong answers still earn 1 VP and teach you the correct answer!</p>
+      </section>
+      <section>
+        <h3>Cardinal Virtues (Acquired)</h3>
+        <p>Prudence, Justice, Fortitude, and Temperance are <em>natural virtues</em> acquired through practice and good moral choices. Grow them by answering virtue questions during prayer and making greater-good moral choices during attacks.</p>
+        <ul>
+          <li><strong>Prudence</strong> (~8 sub-virtues) &ndash; Master to preview enemy actions</li>
+          <li><strong>Justice</strong> (~13 sub-virtues) &ndash; Master for +1 attack damage</li>
+          <li><strong>Fortitude</strong> (~6 sub-virtues) &ndash; Master to reduce damage taken</li>
+          <li><strong>Temperance</strong> (~8 sub-virtues) &ndash; Master to keep charge after attacking</li>
+        </ul>
+        <p>Each sub-virtue needs 2 correct answers to master. Master all sub-virtues of a cardinal virtue to unlock its combat bonus.</p>
+      </section>
+      <section>
+        <h3>Moral Choices (Attacks)</h3>
+        <p>When you attack during Terce or Vespers, you face a moral scenario with two options:</p>
+        <ul>
+          <li><strong>Lesser Good</strong> &ndash; Your attack deals normal damage</li>
+          <li><strong>Greater Good</strong> &ndash; Bonus damage (+1) and progress toward a cardinal sub-virtue</li>
+        </ul>
+        <p>Both choices succeed &mdash; the greater good simply earns more reward.</p>
+      </section>
+      <section>
+        <h3>Gifts of the Holy Spirit</h3>
+        <p>Seven gifts that perfect the virtues, received when theological virtues reach level 3: Wisdom, Understanding, Counsel, Fortitude, Knowledge, Piety, and Fear of the Lord.</p>
+      </section>
+      <section>
+        <h3>Fruits of the Holy Spirit</h3>
+        <p>Twelve fruits manifest as passive bonuses when virtues and gifts combine: Charity, Joy, Peace, Patience, Kindness, Goodness, Generosity, Gentleness, Faithfulness, Modesty, Self-Control, Chastity.</p>
+      </section>
+      <section>
+        <h3>Grace &amp; Fidelity</h3>
+        <p><strong>Grace</strong> grows through Sunday reflections and prayer. <strong>Fidelity</strong> measures your responsiveness to grace &mdash; pray regularly to keep it high. High fidelity helps theological virtues grow faster on Sundays. <strong>Merit</strong> is earned by cooperating with grace through good choices.</p>
       </section>
       <section>
         <h3>Sundays</h3>
-        <p>On Sundays (Lord's Days), ships rest but can pray. Sunday virtue challenges earn double progress!</p>
+        <p>On Sundays (Lord's Days), all ships rest and heal +2 HP. A reflection on grace is shown, and one theological virtue receives growth. No player or enemy actions &mdash; true Sabbath rest.</p>
       </section>
       <section>
         <h3>Winning</h3>
@@ -160,6 +187,29 @@
       </div>
     </div>
 
+    <!-- Moral Choice Overlay (attacks) -->
+    <div id="moral-choice-overlay" class="hidden">
+      <div id="moral-choice-card">
+        <div id="moral-choice-header">Moral Choice</div>
+        <div id="moral-scenario"></div>
+        <div id="moral-buttons">
+          <button id="moral-lesser" class="moral-btn lesser">Lesser Good</button>
+          <button id="moral-greater" class="moral-btn greater">Greater Good</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sunday Rest Overlay -->
+    <div id="sunday-overlay" class="hidden">
+      <div id="sunday-card">
+        <div id="sunday-header">Sunday Rest</div>
+        <div id="sunday-heal-msg">All ships healed +2 HP</div>
+        <div id="sunday-title"></div>
+        <div id="sunday-text"></div>
+        <button id="sunday-dismiss" class="primary-btn">Amen</button>
+      </div>
+    </div>
+
     <!-- Game Menu Overlay -->
     <div id="game-menu" class="hidden">
       <div class="menu-content">
@@ -198,6 +248,7 @@
     </div>
   </div>
 
+  <script src="virtues.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
