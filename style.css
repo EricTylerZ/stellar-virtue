@@ -527,6 +527,148 @@ html, body {
   text-align: center;
 }
 
+/* ===== Virtue Question Overlay ===== */
+#virtue-overlay, #virtue-result-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 35;
+  padding: 16px;
+}
+#virtue-question-card, #virtue-result-card {
+  background: var(--bg-card);
+  border: 2px solid var(--virtue-gold);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+#virtue-question-header {
+  color: var(--virtue-gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+#virtue-question-text {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+#virtue-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.virtue-answer-btn {
+  padding: 14px 16px;
+  background: var(--bg-surface);
+  border: 1.5px solid #2a3548;
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+.virtue-answer-btn:active {
+  border-color: var(--virtue-gold);
+  background: rgba(241, 196, 15, 0.1);
+}
+
+/* Virtue Result */
+#virtue-result-icon {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+#virtue-result-text {
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+#virtue-result-explanation {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* ===== Virtue Progress in Status ===== */
+.virtue-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.virtue-row {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 12px;
+}
+.virtue-row.mastered {
+  border-left: 3px solid var(--virtue-gold);
+}
+.virtue-row.unmastered {
+  border-left: 3px solid #2a3548;
+}
+.virtue-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.virtue-row-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.virtue-row-name.mastered {
+  color: var(--virtue-gold);
+}
+.virtue-row-name.unmastered {
+  color: var(--text-dim);
+}
+.virtue-row-bonus {
+  font-size: 0.7rem;
+  color: var(--virtue-gold);
+  font-weight: 600;
+}
+.sub-virtues {
+  display: flex;
+  gap: 8px;
+}
+.sub-virtue {
+  flex: 1;
+  text-align: center;
+}
+.sub-virtue-name {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.sub-virtue-pips {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+.sub-pip {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--virtue-gold);
+}
+.sub-pip.filled {
+  background: var(--virtue-gold);
+}
+
 /* ===== Utility ===== */
 .hidden {
   display: none !important;

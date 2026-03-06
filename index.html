@@ -66,15 +66,29 @@
         <h3>Actions</h3>
         <ul>
           <li><strong>Move</strong> &ndash; Move a ship to an adjacent sector</li>
-          <li><strong>Attack</strong> &ndash; Deal damage equal to charge level (1/2/3), then reset charge</li>
-          <li><strong>Charge</strong> &ndash; Increase charge by 1 (max 3)</li>
+          <li><strong>Attack</strong> &ndash; Deal damage equal to charge level, then reset charge</li>
+          <li><strong>Charge</strong> &ndash; Increase charge by 1</li>
           <li><strong>Repair</strong> &ndash; Heal 1 health on your ship</li>
-          <li><strong>Pray</strong> &ndash; Gain 1 virtue point</li>
+          <li><strong>Pray</strong> &ndash; Answer a virtue question to grow in virtue</li>
         </ul>
       </section>
       <section>
+        <h3>Virtues &amp; Sub-Virtues</h3>
+        <p>When you pray, you face a Virtue Challenge &mdash; a question about one of 7 virtues. Answer correctly to earn progress toward mastering that virtue's sub-virtues (3 correct answers each). Master all 3 sub-virtues to unlock a powerful combat bonus!</p>
+        <ul>
+          <li><strong>Faith</strong> (Trust, Devotion, Witness) &ndash; +1 max charge</li>
+          <li><strong>Hope</strong> (Perseverance, Optimism, Courage) &ndash; +1 max health</li>
+          <li><strong>Charity</strong> (Generosity, Compassion, Sacrifice) &ndash; Pray heals allies</li>
+          <li><strong>Prudence</strong> (Discernment, Foresight, Caution) &ndash; Preview enemy moves</li>
+          <li><strong>Justice</strong> (Fairness, Integrity, Duty) &ndash; +1 attack damage</li>
+          <li><strong>Fortitude</strong> (Endurance, Patience, Bravery) &ndash; Reduce damage taken</li>
+          <li><strong>Temperance</strong> (Moderation, Humility, Self-Control) &ndash; Keep charge after attacking</li>
+        </ul>
+        <p>Wrong answers still earn 1 VP and teach you the correct answer!</p>
+      </section>
+      <section>
         <h3>Sundays</h3>
-        <p>On Sundays (Lord's Days), ships rest but can pray for virtue points.</p>
+        <p>On Sundays (Lord's Days), ships rest but can pray. Sunday virtue challenges earn double progress!</p>
       </section>
       <section>
         <h3>Winning</h3>
@@ -124,6 +138,25 @@
         <div id="card-type"></div>
         <div id="card-text"></div>
         <button id="card-dismiss" class="primary-btn">OK</button>
+      </div>
+    </div>
+
+    <!-- Virtue Question Overlay -->
+    <div id="virtue-overlay" class="hidden">
+      <div id="virtue-question-card">
+        <div id="virtue-question-header">Virtue Challenge</div>
+        <div id="virtue-question-text"></div>
+        <div id="virtue-answers"></div>
+      </div>
+    </div>
+
+    <!-- Virtue Result Overlay -->
+    <div id="virtue-result-overlay" class="hidden">
+      <div id="virtue-result-card">
+        <div id="virtue-result-icon"></div>
+        <div id="virtue-result-text"></div>
+        <div id="virtue-result-explanation"></div>
+        <button id="virtue-result-dismiss" class="primary-btn">Continue</button>
       </div>
     </div>
 
