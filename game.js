@@ -65,7 +65,8 @@
       sector: PLAYER_BASES[i % 3],
       player: i % playerCount,
       acted: false,
-      destroyed: false
+      destroyed: false,
+      charge: 1
     }));
 
     const enemyShips = [];
@@ -94,6 +95,7 @@
       phase: 'play', // play, selectTarget, selectSector, gameOver
       message: null,
       basesIntact: { 1: true, 5: true, 9: true },
+      baseHealth: { 1: 3, 5: 3, 9: 3 },
       sunday: false
     };
   }
@@ -609,9 +611,12 @@
       if (!state.basesIntact[base]) return;
       const enemies = state.enemyShips.filter(e => e.sector === base && e.deployed && !e.destroyed);
       const defenders = state.playerShips.filter(s => s.sector === base && !s.destroyed);
-      // Base falls if enemies present and no defenders
+      // Base takes damage if enemies present and no defenders
       if (enemies.length > 0 && defenders.length === 0) {
-        state.basesIntact[base] = false;
+        state.baseHealth[base] -= enemies.length;
+        if (state.baseHealth[base] <= 0) {
+          state.basesIntact[base] = false;
+        }
       }
     });
 
@@ -729,7 +734,7 @@
     PLAYER_BASES.forEach(b => {
       html += `<div class="status-ship ${state.basesIntact[b] ? 'player' : 'enemy'}">
         <span>Sector ${b}</span>
-        <span>${state.basesIntact[b] ? 'Intact' : 'Fallen'}</span>
+        <span>${state.basesIntact[b] ? `Intact (${state.baseHealth[b]} HP)` : 'Fallen'}</span>
       </div>`;
     });
     html += '</div>';
