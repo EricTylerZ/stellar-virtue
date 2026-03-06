@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#00918B">
+  <title>Stellar Virtue</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Title Screen -->
+  <div id="title-screen" class="screen active">
+    <div class="title-content">
+      <h1>Stellar Virtue</h1>
+      <p class="subtitle">A Cooperative Board Game by Zoseco</p>
+      <p class="version">Version 0.12</p>
+      <div class="setup-form">
+        <label for="player-count">Number of Players</label>
+        <div class="player-select">
+          <button class="player-btn selected" data-count="1">1</button>
+          <button class="player-btn" data-count="2">2</button>
+          <button class="player-btn" data-count="3">3</button>
+          <button class="player-btn" data-count="4">4</button>
+          <button class="player-btn" data-count="6">6</button>
+          <button class="player-btn" data-count="12">12</button>
+        </div>
+        <button id="start-btn" class="primary-btn">Begin Mission</button>
+        <button id="rules-btn" class="secondary-btn">How to Play</button>
+      </div>
+    </div>
+    <div class="footer">zoseco.com</div>
+  </div>
+
+  <!-- Rules Screen -->
+  <div id="rules-screen" class="screen">
+    <div class="screen-header">
+      <button class="back-btn" data-target="title-screen">&larr;</button>
+      <h2>How to Play</h2>
+    </div>
+    <div class="rules-content">
+      <section>
+        <h3>Overview</h3>
+        <p>Stellar Virtue is a cooperative game where players command virtuous AI fleets to defend human colonies from rogue AI ships. Survive 9 days to win!</p>
+      </section>
+      <section>
+        <h3>Setup</h3>
+        <p>The board has 12 sectors around Earth. Player bases are in sectors 1, 5, and 9. Enemy ships spawn in sectors 4, 8, and 12. Each player controls one or more of the 12 saint-themed ships.</p>
+      </section>
+      <section>
+        <h3>Daily Office (7 Turns per Day)</h3>
+        <ul>
+          <li><strong>Lauds</strong> &ndash; Morning prayer; gain 1 virtue point</li>
+          <li><strong>Prime</strong> &ndash; Draw a Catholic Action Card</li>
+          <li><strong>Terce</strong> &ndash; Move or attack</li>
+          <li><strong>Sext</strong> &ndash; Charge or repair</li>
+          <li><strong>None</strong> &ndash; Pray or use a virtue ability</li>
+          <li><strong>Vespers</strong> &ndash; Move or attack</li>
+          <li><strong>Compline</strong> &ndash; Rest; heal 1 health per ship</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Actions</h3>
+        <ul>
+          <li><strong>Move</strong> &ndash; Move a ship to an adjacent sector</li>
+          <li><strong>Attack</strong> &ndash; Deal damage equal to charge level, then reset charge</li>
+          <li><strong>Charge</strong> &ndash; Increase charge by 1</li>
+          <li><strong>Repair</strong> &ndash; Heal 1 health on your ship</li>
+          <li><strong>Pray</strong> &ndash; Answer a virtue question to grow in virtue</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Theological Virtues (Received)</h3>
+        <p>Faith, Hope, and Charity are <em>supernatural virtues</em> &mdash; gifts infused by God, not earned by effort. They grow through grace on Sundays and through fidelity to prayer.</p>
+        <ul>
+          <li><strong>Faith</strong> &ndash; Level 3 grants +1 max charge</li>
+          <li><strong>Hope</strong> &ndash; Level 3 grants +1 max health</li>
+          <li><strong>Charity</strong> &ndash; Level 3 allows prayer to heal allies</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Cardinal Virtues (Acquired)</h3>
+        <p>Prudence, Justice, Fortitude, and Temperance are <em>natural virtues</em> acquired through practice and good moral choices. Grow them by answering virtue questions during prayer and making greater-good moral choices during attacks.</p>
+        <ul>
+          <li><strong>Prudence</strong> (~8 sub-virtues) &ndash; Master to preview enemy actions</li>
+          <li><strong>Justice</strong> (~13 sub-virtues) &ndash; Master for +1 attack damage</li>
+          <li><strong>Fortitude</strong> (~6 sub-virtues) &ndash; Master to reduce damage taken</li>
+          <li><strong>Temperance</strong> (~8 sub-virtues) &ndash; Master to keep charge after attacking</li>
+        </ul>
+        <p>Each sub-virtue needs 2 correct answers to master. Master all sub-virtues of a cardinal virtue to unlock its combat bonus.</p>
+      </section>
+      <section>
+        <h3>Moral Choices (Attacks)</h3>
+        <p>When you attack during Terce or Vespers, you face a moral scenario with two options:</p>
+        <ul>
+          <li><strong>Lesser Good</strong> &ndash; Your attack deals normal damage</li>
+          <li><strong>Greater Good</strong> &ndash; Bonus damage (+1) and progress toward a cardinal sub-virtue</li>
+        </ul>
+        <p>Both choices succeed &mdash; the greater good simply earns more reward.</p>
+      </section>
+      <section>
+        <h3>Gifts of the Holy Spirit</h3>
+        <p>Seven gifts that perfect the virtues, received when theological virtues reach level 3: Wisdom, Understanding, Counsel, Fortitude, Knowledge, Piety, and Fear of the Lord.</p>
+      </section>
+      <section>
+        <h3>Fruits of the Holy Spirit</h3>
+        <p>Twelve fruits manifest as passive bonuses when virtues and gifts combine: Charity, Joy, Peace, Patience, Kindness, Goodness, Generosity, Gentleness, Faithfulness, Modesty, Self-Control, Chastity.</p>
+      </section>
+      <section>
+        <h3>Grace &amp; Fidelity</h3>
+        <p><strong>Grace</strong> grows through Sunday reflections and prayer. <strong>Fidelity</strong> measures your responsiveness to grace &mdash; pray regularly to keep it high. High fidelity helps theological virtues grow faster on Sundays. <strong>Merit</strong> is earned by cooperating with grace through good choices.</p>
+      </section>
+      <section>
+        <h3>Sundays</h3>
+        <p>On Sundays (Lord's Days), all ships rest and heal +2 HP. A reflection on grace is shown, and one theological virtue receives growth. No player or enemy actions &mdash; true Sabbath rest.</p>
+      </section>
+      <section>
+        <h3>Winning</h3>
+        <p>Survive 9 days without losing a base. Bonus victory for defeating all 24 enemy ships!</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <!-- Top Bar -->
+    <div class="game-bar">
+      <div class="game-bar-left">
+        <span id="day-display">Day 1</span>
+        <span id="turn-display" class="turn-badge">Lauds</span>
+      </div>
+      <div class="game-bar-right">
+        <span id="virtue-display" class="virtue-badge">VP: 0</span>
+        <button id="menu-btn" class="icon-btn">&#9776;</button>
+      </div>
+    </div>
+
+    <!-- Game Board -->
+    <div id="board-container">
+      <canvas id="game-board"></canvas>
+    </div>
+
+    <!-- Ship Tray -->
+    <div id="ship-tray">
+      <div id="ship-tray-header">
+        <span>Your Ships</span>
+        <button id="toggle-tray" class="icon-btn">&#9650;</button>
+      </div>
+      <div id="ship-list"></div>
+    </div>
+
+    <!-- Action Panel -->
+    <div id="action-panel" class="hidden">
+      <div id="action-title">Select Action</div>
+      <div id="action-buttons"></div>
+      <button id="cancel-action" class="secondary-btn">Cancel</button>
+    </div>
+
+    <!-- Card Display -->
+    <div id="card-overlay" class="hidden">
+      <div id="card-display">
+        <div id="card-type"></div>
+        <div id="card-text"></div>
+        <button id="card-dismiss" class="primary-btn">OK</button>
+      </div>
+    </div>
+
+    <!-- Virtue Question Overlay -->
+    <div id="virtue-overlay" class="hidden">
+      <div id="virtue-question-card">
+        <div id="virtue-question-header">Virtue Challenge</div>
+        <div id="virtue-question-text"></div>
+        <div id="virtue-answers"></div>
+      </div>
+    </div>
+
+    <!-- Virtue Result Overlay -->
+    <div id="virtue-result-overlay" class="hidden">
+      <div id="virtue-result-card">
+        <div id="virtue-result-icon"></div>
+        <div id="virtue-result-text"></div>
+        <div id="virtue-result-explanation"></div>
+        <button id="virtue-result-dismiss" class="primary-btn">Continue</button>
+      </div>
+    </div>
+
+    <!-- Moral Choice Overlay (attacks) -->
+    <div id="moral-choice-overlay" class="hidden">
+      <div id="moral-choice-card">
+        <div id="moral-choice-header">Moral Choice</div>
+        <div id="moral-scenario"></div>
+        <div id="moral-buttons">
+          <button id="moral-lesser" class="moral-btn lesser">Lesser Good</button>
+          <button id="moral-greater" class="moral-btn greater">Greater Good</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sunday Rest Overlay -->
+    <div id="sunday-overlay" class="hidden">
+      <div id="sunday-card">
+        <div id="sunday-header">Sunday Rest</div>
+        <div id="sunday-heal-msg">All ships healed +2 HP</div>
+        <div id="sunday-title"></div>
+        <div id="sunday-text"></div>
+        <button id="sunday-dismiss" class="primary-btn">Amen</button>
+      </div>
+    </div>
+
+    <!-- Game Menu Overlay -->
+    <div id="game-menu" class="hidden">
+      <div class="menu-content">
+        <h3>Menu</h3>
+        <button id="menu-rules" class="menu-btn">Rules</button>
+        <button id="menu-status" class="menu-btn">Game Status</button>
+        <button id="menu-quit" class="menu-btn danger">Quit Game</button>
+        <button id="menu-close" class="secondary-btn">Close</button>
+      </div>
+    </div>
+
+    <!-- Status Overlay -->
+    <div id="status-overlay" class="hidden">
+      <div class="status-content">
+        <div class="screen-header">
+          <button class="close-status-btn" id="close-status">&larr;</button>
+          <h2>Game Status</h2>
+        </div>
+        <div id="status-details"></div>
+      </div>
+    </div>
+
+    <!-- End Turn Button -->
+    <div id="end-turn-bar">
+      <button id="end-turn-btn" class="primary-btn">End Turn</button>
+    </div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div id="gameover-screen" class="screen">
+    <div class="title-content">
+      <h1 id="gameover-title">Victory!</h1>
+      <p id="gameover-message"></p>
+      <p id="gameover-stats"></p>
+      <button id="play-again-btn" class="primary-btn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="virtues.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
