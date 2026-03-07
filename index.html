@@ -31,6 +31,21 @@
         <button id="start-btn" class="primary-btn">Begin Mission</button>
         <button id="rules-btn" class="secondary-btn">How to Play</button>
       </div>
+      <!-- Sentinel Ops Login -->
+      <div class="sentinel-login">
+        <div id="sentinel-status" class="sentinel-offline">Playing offline</div>
+        <div id="sentinel-login-form">
+          <input type="text" id="sentinel-role-id" placeholder="Role ID" autocomplete="off">
+          <button id="sentinel-login-btn" class="sentinel-btn">Login</button>
+        </div>
+        <div id="sentinel-register-form" class="hidden">
+          <input type="text" id="sentinel-reg-name" placeholder="Your name" autocomplete="off">
+          <button id="sentinel-register-btn" class="sentinel-btn">Register</button>
+        </div>
+        <div class="sentinel-toggle">
+          <a href="#" id="sentinel-toggle-register">New? Register for EZ Merit Points</a>
+        </div>
+      </div>
     </div>
     <div class="footer">zoseco.com</div>
   </div>
@@ -244,11 +259,13 @@
       <h1 id="gameover-title">Victory!</h1>
       <p id="gameover-message"></p>
       <p id="gameover-stats"></p>
+      <p id="gameover-merit" class="hidden"></p>
       <button id="play-again-btn" class="primary-btn">Play Again</button>
     </div>
   </div>
 
   <script src="virtues.js"></script>
+  <script src="sentinel-api.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
