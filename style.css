@@ -877,6 +877,55 @@ html, body {
   display: none !important;
 }
 
+/* ===== Sentinel Ops Login ===== */
+.sentinel-login {
+  margin-top: 16px;
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+.sentinel-login input {
+  background: var(--bg);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 140px;
+  margin-right: 6px;
+}
+.sentinel-btn {
+  background: var(--primary-dark);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.sentinel-btn:active { opacity: 0.8; }
+#sentinel-status {
+  font-size: 12px;
+  margin-bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+#sentinel-status.sentinel-offline { color: var(--text-dim); }
+#sentinel-status.sentinel-online { color: var(--primary-light); }
+.sentinel-toggle { margin-top: 8px; }
+.sentinel-toggle a {
+  color: var(--text-dim);
+  font-size: 11px;
+  text-decoration: underline;
+}
+#gameover-merit {
+  color: var(--gold);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
 /* ===== Larger screens ===== */
 @media (min-width: 500px) {
   .title-content h1 {

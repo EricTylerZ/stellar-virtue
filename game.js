@@ -124,6 +124,7 @@
       graceMeter: 0,
       fidelity: 1.0, // 0-1, maintained by praying regularly
       merit: 0,
+      sentinelRoleId: (typeof SentinelAPI !== 'undefined' && SentinelAPI.getRoleId()) || null,
       prayedThisDay: false,
       // Question tracking
       answeredQuestions: [],
@@ -964,6 +965,23 @@
     document.getElementById('gameover-stats').textContent =
       `Day ${Math.min(state.day, MAX_DAYS)} | Enemies: ${state.enemiesDefeated}/24 | Gifts: ${state.giftsReceived.length}/7 | Fruits: ${state.fruitsUnlocked.length}/12 | Virtues: ${allVirtues}`;
 
+    // Submit EZ Merit Points to Sentinel Ops
+    const meritEl = document.getElementById('gameover-merit');
+    meritEl.classList.add('hidden');
+    if (state.sentinelRoleId && state.merit > 0 && typeof SentinelAPI !== 'undefined') {
+      SentinelAPI.submitMerit(state.merit, {
+        won,
+        day: Math.min(state.day, MAX_DAYS),
+        enemies_defeated: state.enemiesDefeated,
+        cardinals_mastered: state.cardinalsMastered.length,
+        gifts_received: state.giftsReceived.length,
+        fruits_unlocked: state.fruitsUnlocked.length,
+      }).then(result => {
+        meritEl.textContent = `+${result.points_awarded} EZ Merit Points${result.capped ? ' (daily cap reached)' : ''}`;
+        meritEl.classList.remove('hidden');
+      }).catch(() => {});
+    }
+
     showScreen('gameover-screen');
   }
 
@@ -1302,6 +1320,53 @@
     document.getElementById('play-again-btn').addEventListener('click', () => {
       state = null;
       showScreen('title-screen');
+    });
+
+    // === Sentinel Ops login/register ===
+    function updateSentinelStatus(text, online) {
+      const el = document.getElementById('sentinel-status');
+      el.textContent = text;
+      el.className = online ? 'sentinel-online' : 'sentinel-offline';
+    }
+
+    // Restore session from localStorage
+    if (typeof SentinelAPI !== 'undefined' && SentinelAPI.isLoggedIn()) {
+      const name = SentinelAPI.getStoredName();
+      updateSentinelStatus(`Logged in as ${name || SentinelAPI.getRoleId()}`, true);
+      document.getElementById('sentinel-login-form').classList.add('hidden');
+      document.querySelector('.sentinel-toggle').classList.add('hidden');
+    }
+
+    document.getElementById('sentinel-login-btn').addEventListener('click', async () => {
+      const roleId = document.getElementById('sentinel-role-id').value.trim();
+      if (!roleId) return;
+      try {
+        const data = await SentinelAPI.login(roleId);
+        updateSentinelStatus(`Logged in as ${data.name} | Balance: ${data.balance}`, true);
+        document.getElementById('sentinel-login-form').classList.add('hidden');
+        document.querySelector('.sentinel-toggle').classList.add('hidden');
+      } catch (e) {
+        updateSentinelStatus(`Login failed: ${e.message}`, false);
+      }
+    });
+
+    document.getElementById('sentinel-toggle-register').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('sentinel-login-form').classList.add('hidden');
+      document.getElementById('sentinel-register-form').classList.remove('hidden');
+    });
+
+    document.getElementById('sentinel-register-btn').addEventListener('click', async () => {
+      const name = document.getElementById('sentinel-reg-name').value.trim();
+      if (!name) return;
+      try {
+        const data = await SentinelAPI.register(name);
+        updateSentinelStatus(`Registered! Role ID: ${data.role_id} | Balance: ${data.welcome_bonus}`, true);
+        document.getElementById('sentinel-register-form').classList.add('hidden');
+        document.querySelector('.sentinel-toggle').classList.add('hidden');
+      } catch (e) {
+        updateSentinelStatus(`Registration failed: ${e.message}`, false);
+      }
     });
 
     // Resize
