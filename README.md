@@ -4,7 +4,7 @@ A cooperative board game about virtuous AI spaceships defending human colonies �
 
 **Play online or print and play at the table.** Stellar Virtue teaches the cardinal virtues, gifts of the Holy Spirit, and fruits of the Holy Spirit through gameplay, moral choices, and a progressive question system rooted in the Thomistic tradition (following Fr. Ripperger's taxonomy).
 
-Part of the [Zoseco](https://zoseco.com) **EZ Merit Point** ecosystem.
+Integrates with the **EZ Merit Point** ecosystem. A [Zoseco](https://zoseco.com) game.
 
 ## How It Works
 
@@ -49,7 +49,7 @@ The game teaches virtue through three integrated mechanics:
 - **Progress tracking** — per-category, per-topic, per-subtopic with level advancement
 - **Mastery thresholds** — configurable per category
 
-This module is designed to be reused across the Zoseco ecosystem (StagQuest, future formation tools).
+This module is designed to be reused across the EZ Merit Point ecosystem (StagQuest, future formation tools).
 
 ### Current Question Banks
 
@@ -87,7 +87,7 @@ Stellar Virtue integrates with **Sentinel Ops** for the EZ Merit Point economy:
 - **Earn merit** by answering questions correctly, making virtuous moral choices, and completing games
 - **Merit is submitted** at game end with stats (enemies defeated, virtues mastered, gifts received)
 - **Daily cap** prevents grinding — consistent play over time is rewarded
-- **Cross-game** — merit earned here contributes to your overall Zoseco profile
+- **Cross-game** — merit earned here contributes to your overall EZ Merit Point profile
 
 ### Related Projects
 
