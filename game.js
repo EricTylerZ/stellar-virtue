@@ -24,7 +24,8 @@
 
   // ===== Virtue System (from virtues.js) =====
   const { CARDINAL_VIRTUES, THEOLOGICAL_VIRTUES, GIFTS_OF_SPIRIT, FRUITS_OF_SPIRIT,
-          SUNDAY_REFLECTIONS, VIRTUE_QUESTIONS, MORAL_CHOICES } = VIRTUE_DATA;
+          SUNDAY_REFLECTIONS, VIRTUE_QUESTIONS, MORAL_CHOICES,
+          GIFT_QUESTIONS, FRUIT_QUESTIONS } = VIRTUE_DATA;
 
   // Combined lookup for backward compat
   const VIRTUES = { ...CARDINAL_VIRTUES, ...THEOLOGICAL_VIRTUES };
@@ -126,8 +127,11 @@
       merit: 0,
       sentinelRoleId: (typeof SentinelAPI !== 'undefined' && SentinelAPI.getRoleId()) || null,
       prayedThisDay: false,
+      // Teaching module progress (level-aware, category-agnostic)
+      teachingProgress: (typeof TeachingModule !== 'undefined') ? TeachingModule.createProgressState() : null,
       // Question tracking
-      answeredQuestions: [],
+      answeredQuestions: [],         // legacy: numeric indices for cardinal questions
+      answeredTeachingIds: [],       // new: globalId strings for TeachingModule
       currentQuestion: null,
       currentMoralChoice: null,
       sundayReflectionIndex: 0
@@ -221,11 +225,19 @@
   }
 
   function getRandomQuestion() {
-    // Only cardinal virtue questions (theological are received, not studied)
+    // Use TeachingModule if available (level-aware, category-agnostic)
+    if (typeof TeachingModule !== 'undefined' && state.teachingProgress) {
+      const result = TeachingModule.getRandomQuestion({
+        category: 'cardinal', // prayer turns use cardinal virtue questions
+        answeredIndices: state.answeredTeachingIds,
+        progressState: state.teachingProgress
+      });
+      if (result) return result;
+    }
+    // Fallback: legacy question selection
     const unanswered = VIRTUE_QUESTIONS.map((q, i) => i)
       .filter(i => !state.answeredQuestions.includes(i));
     const pool = unanswered.length > 0 ? unanswered : VIRTUE_QUESTIONS.map((_, i) => i);
-    // Prefer questions for sub-virtues not yet mastered
     const unmasteredPool = pool.filter(i => {
       const q = VIRTUE_QUESTIONS[i];
       return !isSubVirtueMastered(q.virtue, q.sub);
@@ -235,9 +247,20 @@
   }
 
   function startVirtueChallenge() {
-    const qIndex = getRandomQuestion();
-    const question = VIRTUE_QUESTIONS[qIndex];
-    state.currentQuestion = { index: qIndex, ...question };
+    const result = getRandomQuestion();
+    let question;
+    if (result && result.question) {
+      // TeachingModule result
+      question = { ...result.question, globalId: result.globalId, _teaching: true };
+      // Map back to legacy fields for display compat
+      if (!question.virtue && question.topic) question.virtue = question.topic;
+      if (!question.sub && question.subtopic) question.sub = question.subtopic;
+    } else {
+      // Legacy: result is an index
+      const qIndex = result;
+      question = { index: qIndex, ...VIRTUE_QUESTIONS[qIndex] };
+    }
+    state.currentQuestion = question;
     state.phase = 'virtueChallenge';
     state.prayedThisDay = true;
     showVirtueQuestion(state.currentQuestion);
@@ -251,16 +274,35 @@
     const ship = state.playerShips[state.selectedShip];
 
     if (correct) {
-      state.cardinalProgress[q.virtue][q.sub] = Math.min(2, state.cardinalProgress[q.virtue][q.sub] + 1);
-      state.answeredQuestions.push(q.index);
+      // Track via TeachingModule if available
+      let levelInfo = null;
+      if (q._teaching && typeof TeachingModule !== 'undefined' && state.teachingProgress) {
+        levelInfo = TeachingModule.incrementProgress(
+          state.teachingProgress, q.category || 'cardinal', q.topic || q.virtue, q.subtopic || q.sub
+        );
+        state.answeredTeachingIds.push(q.globalId);
+      }
+
+      // Also update legacy cardinalProgress for backward compat
+      if (q.virtue && state.cardinalProgress[q.virtue] && state.cardinalProgress[q.virtue][q.sub] !== undefined) {
+        state.cardinalProgress[q.virtue][q.sub] = Math.min(2, state.cardinalProgress[q.virtue][q.sub] + 1);
+      }
+      if (q.index !== undefined) state.answeredQuestions.push(q.index);
       state.graceMeter++;
       state.merit++;
 
-      const subName = CARDINAL_VIRTUES[q.virtue].subNames[q.sub];
-      const progress = state.cardinalProgress[q.virtue][q.sub];
-      showVirtueResult(true,
-        `Correct! +1 ${CARDINAL_VIRTUES[q.virtue].name} (${subName}: ${progress}/2)`,
-        q.explanation);
+      const virtueName = (CARDINAL_VIRTUES[q.virtue] && CARDINAL_VIRTUES[q.virtue].name) || q.virtue || '';
+      const subName = (CARDINAL_VIRTUES[q.virtue] && CARDINAL_VIRTUES[q.virtue].subNames[q.sub]) || q.sub || '';
+      const progress = (state.cardinalProgress[q.virtue] && state.cardinalProgress[q.virtue][q.sub]) || 0;
+      let msg = `Correct! +1 ${virtueName} (${subName}: ${progress}/2)`;
+
+      // Show level-up message if applicable
+      if (levelInfo && levelInfo.leveledUp) {
+        const lvlLabel = TeachingModule.getLevelLabel(levelInfo.level);
+        msg += ` — Advanced to ${lvlLabel}!`;
+      }
+
+      showVirtueResult(true, msg, q.explanation);
 
       // Charity bonus: heal adjacent allies when praying
       if (isTheologicalReceived('charity') && ship) {
@@ -1042,8 +1084,17 @@
     const text = document.getElementById('virtue-question-text');
     const answersDiv = document.getElementById('virtue-answers');
 
-    const virtueData = CARDINAL_VIRTUES[q.virtue];
-    header.textContent = `${virtueData.name} — ${virtueData.subNames[q.sub]}`;
+    // Use TeachingModule header if available, else legacy
+    let headerText;
+    if (q._teaching && typeof TeachingModule !== 'undefined') {
+      headerText = TeachingModule.getQuestionHeader(q);
+      const lvl = q.level || 1;
+      if (lvl > 1) headerText += ' [' + TeachingModule.getLevelLabel(lvl) + ']';
+    } else {
+      const virtueData = CARDINAL_VIRTUES[q.virtue];
+      headerText = `${virtueData.name} — ${virtueData.subNames[q.sub]}`;
+    }
+    header.textContent = headerText;
     text.textContent = q.q;
     answersDiv.innerHTML = '';
 

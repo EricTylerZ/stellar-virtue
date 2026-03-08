@@ -296,7 +296,162 @@ const VIRTUE_DATA = (function () {
 
     // TEMPERANCE - Modesty
     { virtue: 'temperance', sub: 'modesty', q: 'Modesty means:', answers: ['Governing outward behavior to reflect inner dignity', 'Wearing particular clothes', 'Hiding from others'], correct: 0, explanation: 'Modesty orders our external deportment to reflect the soul\'s dignity.' },
-    { virtue: 'temperance', sub: 'modesty', q: 'Modesty applies to:', answers: ['Dress, speech, behavior, and how we present ourselves', 'Clothing only', 'Women only'], correct: 0, explanation: 'Modesty governs all aspects of how we present ourselves to the world.' }
+    { virtue: 'temperance', sub: 'modesty', q: 'Modesty applies to:', answers: ['Dress, speech, behavior, and how we present ourselves', 'Clothing only', 'Women only'], correct: 0, explanation: 'Modesty governs all aspects of how we present ourselves to the world.' },
+
+    // ===== LEVEL 2 — Intermediate Cardinal Virtue Questions =====
+
+    // Prudence Level 2
+    { virtue: 'prudence', sub: 'memory', level: 2, q: 'St. Thomas teaches that prudent memory requires not just recall but:', answers: ['Fidelity to reality — remembering things as they truly happened, not as we wished', 'A photographic memory', 'Remembering only good things'], correct: 0, explanation: 'Prudent memory demands truthful recollection — self-deception about the past undermines all future judgment.' },
+    { virtue: 'prudence', sub: 'understanding', level: 2, q: 'Prudential understanding differs from speculative understanding because:', answers: ['It grasps practical truths ordered to action, not abstract truth for its own sake', 'Speculative is higher than practical', 'There is no real difference'], correct: 0, explanation: 'Prudential understanding is ordered to doing — it asks "what should I do?" not "what is true in the abstract?"' },
+    { virtue: 'prudence', sub: 'docility', level: 2, q: 'Docility can be opposed by which vice?', answers: ['Presumption — assuming we already know enough and need no counsel', 'Timidity', 'Excessive study'], correct: 0, explanation: 'The presumptuous person refuses to learn from others, closing off a vital source of prudential wisdom.' },
+    { virtue: 'prudence', sub: 'foresight', level: 2, q: 'Foresight is considered the principal part of prudence because:', answers: ['The very name "prudence" (providentia) derives from foresight — ordering present means to future ends', 'It is the easiest sub-virtue', 'All the other sub-virtues depend on it mechanically'], correct: 0, explanation: 'Prudence essentially means "seeing ahead" — foresight is its core act: ordering present actions toward a good end.' },
+    { virtue: 'prudence', sub: 'caution', level: 2, q: 'How does the vice of negligence relate to caution?', answers: ['Negligence is the failure to exercise caution — not taking care to avoid foreseeable evils', 'Negligence is just laziness, unrelated to caution', 'Caution causes negligence by overthinking'], correct: 0, explanation: 'Negligence is the direct opposite of caution — it fails to attend to the dangers that prudence should foresee.' },
+
+    // Justice Level 2
+    { virtue: 'justice', sub: 'religion', level: 2, q: 'Why can we never fully render to God what Religion demands?', answers: ['Because the debt we owe God is infinite — no creature can fully repay the Creator', 'We actually can if we try hard enough', 'God does not really want our worship'], correct: 0, explanation: 'The virtue of Religion acknowledges an unpayable debt — our worship is always insufficient, which should inspire greater devotion.' },
+    { virtue: 'justice', sub: 'truthfulness', level: 2, q: 'The "mental reservation" tradition in moral theology relates to truthfulness by:', answers: ['Distinguishing between lying (always wrong) and withholding truth from those who have no right to it', 'Permitting all forms of deception', 'Being identical to lying'], correct: 0, explanation: 'Truthfulness does not require disclosing everything to everyone — some information may be rightly withheld.' },
+    { virtue: 'justice', sub: 'epieikeia', level: 2, q: 'Why did Aristotle consider epieikeia superior to legal justice?', answers: ['Because it corrects the law when rigid application would produce injustice — it fulfills the lawgiver\'s true intent', 'Because laws are always wrong', 'He did not — he considered them equal'], correct: 0, explanation: 'Epieikeia is a higher justice — it reaches the lawgiver\'s intention when the letter of the law falls short.' },
+
+    // Fortitude Level 2
+    { virtue: 'fortitude', sub: 'magnanimity', level: 2, q: 'The magnanimous person handles honor and dishonor by:', answers: ['Accepting honor with gratitude but not depending on it, and enduring dishonor without losing purpose', 'Seeking honor constantly', 'Rejecting all honor as pride'], correct: 0, explanation: 'Magnanimity has a right relationship with honor — grateful for it, undisturbed without it.' },
+    { virtue: 'fortitude', sub: 'patience', level: 2, q: 'St. Thomas teaches that patience is more closely related to fortitude than to temperance because:', answers: ['It involves enduring evils (a fortitude act) rather than moderating desires (a temperance act)', 'It requires physical toughness', 'They are actually the same virtue'], correct: 0, explanation: 'Patience endures difficult evils without being broken — this is the heart of fortitude: sustaining good under pressure.' },
+    { virtue: 'fortitude', sub: 'endurance', level: 2, q: 'Why does St. Thomas teach that endurance (sustinere) is a greater act than attack (aggredi)?', answers: ['Because enduring is harder — it requires facing a present evil over time, while attacking allows us to choose the moment', 'Attacking is actually harder', 'They are equally difficult'], correct: 0, explanation: 'The one who endures faces evil at the evil\'s chosen time, not their own — this sustained courage is the harder act.' },
+
+    // Temperance Level 2
+    { virtue: 'temperance', sub: 'humility', level: 2, q: 'St. Thomas places humility under temperance rather than justice because:', answers: ['Humility moderates the desire for our own excellence — it restrains an interior appetite', 'It renders what we owe to others', 'It requires courage'], correct: 0, explanation: 'Humility tempers the disordered desire for self-exaltation — it is about moderating an internal passion.' },
+    { virtue: 'temperance', sub: 'meekness', level: 2, q: 'Meekness does not mean never being angry because:', answers: ['Righteous anger at genuine evil is appropriate — meekness governs anger, not eliminates it', 'Meekness means total passivity', 'Anger is always sinful'], correct: 0, explanation: 'Jesus showed righteous anger at the money-changers. Meekness means anger is governed by reason, not absent.' },
+
+    // ===== LEVEL 3 — Advanced Cardinal Virtue Questions =====
+
+    // Prudence Level 3
+    { virtue: 'prudence', sub: 'reason', level: 3, q: 'St. Thomas identifies three acts of prudence: counsel, judgment, and command. The most important is:', answers: ['Command (imperium) — because prudence must result in action, not merely deliberation', 'Counsel — because deliberation is the hardest part', 'Judgment — because right judgment is the essence of prudence'], correct: 0, explanation: 'Many deliberate well and judge correctly but fail to act. Command — the decisive "do this now" — is prudence\'s crowning act.' },
+    { virtue: 'prudence', sub: 'circumspection', level: 3, q: 'How do prudence\'s sub-virtues work together in a single moral act?', answers: ['Memory recalls experience, understanding grasps the situation, docility seeks counsel, reason deliberates, foresight projects consequences, circumspection weighs circumstances, caution avoids pitfalls, and shrewdness seizes the moment', 'Each sub-virtue works independently on different acts', 'Only one sub-virtue is used per decision'], correct: 0, explanation: 'A single prudent act engages all integral parts — each contributes a necessary element to the complete act of right reason.' },
+
+    // Justice Level 3
+    { virtue: 'justice', sub: 'religion', level: 3, q: 'The relationship between the virtue of Religion and the Gift of Piety is:', answers: ['Religion renders God what we owe in justice; Piety transforms this duty into filial love — the gift perfects the virtue', 'They are the same thing', 'Piety replaces Religion once received'], correct: 0, explanation: 'Religion is duty; Piety is love. The Gift of Piety elevates religious observance from obligation to intimate, joyful communion.' },
+    { virtue: 'justice', sub: 'distributiveJustice', level: 3, q: 'Catholic social teaching distinguishes distributive justice from commutative justice and legal justice. Their relationships are:', answers: ['Legal justice orders persons to the common good; distributive justice allocates the common good to persons; commutative justice governs person-to-person exchanges — all three are needed', 'They are three names for the same concept', 'Only commutative justice matters in practice'], correct: 0, explanation: 'The three forms of justice are complementary — together they order all relationships: person-to-community, community-to-person, and person-to-person.' },
+
+    // Fortitude Level 3
+    { virtue: 'fortitude', sub: 'daring', level: 3, q: 'The relationship between fortitude\'s endurance and daring follows this principle:', answers: ['Endurance is the primary act (sustaining good under evil) while daring is secondary (attacking obstacles) — both are needed but endurance is more essential', 'Daring is always primary because offense is the best defense', 'They must be used in equal measure'], correct: 0, explanation: 'St. Thomas teaches that endurance is the more characteristic act of fortitude, because it is harder to stand firm under evil than to advance against it.' },
+
+    // Temperance Level 3
+    { virtue: 'temperance', sub: 'humility', level: 3, q: 'St. Thomas teaches that humility is the foundation of the spiritual life because:', answers: ['It removes the obstacle of pride, which is the root of all sin, thereby disposing the soul to receive grace and all other virtues', 'It is the easiest virtue to practice', 'It is more important than charity'], correct: 0, explanation: 'Humility does not replace charity (which is the queen of virtues) but is the foundation — without it, pride blocks grace and all growth in virtue.' }
+  ];
+
+  // ===== GIFT OF THE HOLY SPIRIT QUESTIONS =====
+  const GIFT_QUESTIONS = [
+    // Wisdom
+    { category: 'gift', topic: 'wisdom', q: 'The Gift of Wisdom allows us to:', answers: ['Judge all things in light of divine truth and taste the sweetness of God', 'Be smarter than other people', 'Know the future'], correct: 0, explanation: 'Wisdom is the highest gift — it lets us see and savor reality as God sees it.' },
+    { category: 'gift', topic: 'wisdom', q: 'Wisdom perfects which theological virtue?', answers: ['Charity — it deepens our love by letting us experience divine things', 'Faith', 'Hope'], correct: 0, explanation: 'Wisdom perfects Charity by giving us a connnatural knowledge of God through love.' },
+    { category: 'gift', topic: 'wisdom', q: 'Solomon asked God for wisdom rather than riches because:', answers: ['Wisdom orders all other goods — without it, nothing else serves its purpose', 'He was already rich', 'God forced him to choose'], correct: 0, explanation: 'Solomon understood that wisdom is the foundation for using all other gifts rightly.' },
+
+    // Understanding
+    { category: 'gift', topic: 'understanding', q: 'The Gift of Understanding allows us to:', answers: ['Penetrate the deepest meaning of revealed truths', 'Understand every language', 'Comprehend all of science'], correct: 0, explanation: 'Understanding gives a supernatural penetration into the truths of faith.' },
+    { category: 'gift', topic: 'understanding', q: 'Understanding perfects which theological virtue?', answers: ['Faith — it deepens our grasp of what we believe', 'Hope', 'Charity'], correct: 0, explanation: 'Understanding illuminates faith from within, helping us grasp what we believe more deeply.' },
+    { category: 'gift', topic: 'understanding', q: 'The Gift of Understanding differs from natural intelligence because:', answers: ['It is a supernatural light that reveals the inner meaning of divine truths', 'It makes you smarter overall', 'It replaces the need to study'], correct: 0, explanation: 'This gift goes beyond natural reason — it is the Holy Spirit illuminating the truths of faith.' },
+
+    // Counsel
+    { category: 'gift', topic: 'counsel', q: 'The Gift of Counsel helps us to:', answers: ['Know the right course of action in difficult situations through divine guidance', 'Give advice to others', 'Avoid all decisions'], correct: 0, explanation: 'Counsel is the Holy Spirit whispering guidance when human prudence reaches its limits.' },
+    { category: 'gift', topic: 'counsel', q: 'Counsel perfects which cardinal virtue?', answers: ['Prudence — it provides supernatural guidance beyond natural reasoning', 'Justice', 'Fortitude'], correct: 0, explanation: 'Counsel elevates Prudence by adding divine light to our practical judgments.' },
+    { category: 'gift', topic: 'counsel', q: 'We exercise the Gift of Counsel when:', answers: ['We sense an interior prompting from the Holy Spirit about what to do', 'We follow popular opinion', 'We make lists of pros and cons'], correct: 0, explanation: 'Counsel is experienced as a quiet interior certainty about the right path, beyond what reason alone provides.' },
+
+    // Fortitude (Gift)
+    { category: 'gift', topic: 'fortitudeGift', q: 'The Gift of Fortitude differs from the cardinal virtue of Fortitude because:', answers: ['It provides supernatural strength beyond natural human capacity', 'It is the same thing', 'It only applies to physical courage'], correct: 0, explanation: 'The gift elevates natural fortitude to supernatural levels — enabling martyrdom and heroic endurance.' },
+    { category: 'gift', topic: 'fortitudeGift', q: 'The Gift of Fortitude perfects which cardinal virtue?', answers: ['Fortitude — it strengthens the soul beyond natural endurance', 'Temperance', 'Prudence'], correct: 0, explanation: 'The gift perfects Fortitude by giving supernatural strength for trials beyond human capacity.' },
+    { category: 'gift', topic: 'fortitudeGift', q: 'The martyrs demonstrate the Gift of Fortitude because:', answers: ['They endured suffering beyond any natural human capacity, sustained by the Holy Spirit', 'They were naturally brave people', 'They did not feel pain'], correct: 0, explanation: 'No natural courage alone explains the martyrs\' endurance — only the supernatural Gift of Fortitude.' },
+
+    // Knowledge
+    { category: 'gift', topic: 'knowledge', q: 'The Gift of Knowledge allows us to:', answers: ['Understand created things in their relation to God', 'Know everything about science', 'Have a perfect memory'], correct: 0, explanation: 'Knowledge judges created things rightly — seeing them as pointing to God, not as ends in themselves.' },
+    { category: 'gift', topic: 'knowledge', q: 'Knowledge perfects which theological virtue?', answers: ['Faith — it helps us see how creation reveals God\'s truth', 'Charity', 'Hope'], correct: 0, explanation: 'Knowledge strengthens faith by showing how all created things point to their Creator.' },
+    { category: 'gift', topic: 'knowledge', q: 'The Gift of Knowledge helps us avoid:', answers: ['Treating created goods as ultimate ends rather than means to God', 'Learning new things', 'Enjoying creation'], correct: 0, explanation: 'Knowledge rightly orders our relationship to created things — enjoying them as gifts, not idols.' },
+
+    // Piety
+    { category: 'gift', topic: 'piety', q: 'The Gift of Piety gives us:', answers: ['A filial affection toward God as Father and tenderness toward all His children', 'Mere outward religious observance', 'Fear of punishment'], correct: 0, explanation: 'Piety moves us to relate to God not as a distant ruler but as a loving Father.' },
+    { category: 'gift', topic: 'piety', q: 'Piety perfects which cardinal virtue?', answers: ['Justice — it elevates our duty to God into loving devotion', 'Temperance', 'Prudence'], correct: 0, explanation: 'Piety transforms the cold duty of justice into warm, filial love for God.' },
+    { category: 'gift', topic: 'piety', q: 'St. Paul\'s cry "Abba, Father!" (Romans 8:15) reflects the Gift of Piety because:', answers: ['It shows the Holy Spirit giving us an intimate, childlike relationship with God', 'It is a formal prayer', 'It is a Hebrew greeting'], correct: 0, explanation: 'The Spirit of adoption moves us to cry out to God with the intimacy of a child to a parent.' },
+
+    // Fear of the Lord
+    { category: 'gift', topic: 'fearOfLord', q: 'Fear of the Lord means:', answers: ['Filial awe and reverence before God\'s majesty — not servile terror', 'Being terrified of God\'s punishment', 'Avoiding God out of fear'], correct: 0, explanation: 'Fear of the Lord is a child\'s loving reverence, not a slave\'s terror.' },
+    { category: 'gift', topic: 'fearOfLord', q: 'Fear of the Lord perfects which cardinal virtue?', answers: ['Temperance — it makes us recoil from offending God', 'Fortitude', 'Justice'], correct: 0, explanation: 'Fear of the Lord moderates our desires by making us dread displeasing the God we love.' },
+    { category: 'gift', topic: 'fearOfLord', q: '"The fear of the Lord is the beginning of wisdom" (Proverbs 9:10) because:', answers: ['Reverence for God is the foundation on which all wisdom is built', 'You must be afraid before you can be wise', 'Wisdom causes fear'], correct: 0, explanation: 'Without awe before God, no true wisdom is possible — it grounds everything else.' },
+
+    // ===== LEVEL 2 — Intermediate Gift Questions =====
+    { category: 'gift', topic: 'wisdom', level: 2, q: 'St. Thomas distinguishes the Gift of Wisdom from natural wisdom because:', answers: ['The gift judges by connaturality — a kind of sympathetic knowledge through love, not just reason', 'Natural wisdom and the gift are the same thing applied differently', 'The gift is just a higher IQ'], correct: 0, explanation: 'Wisdom as a gift works through affective connaturality — we know divine things because we love them and are united to them.' },
+    { category: 'gift', topic: 'understanding', level: 2, q: 'The Gift of Understanding relates to the mysteries of faith by:', answers: ['Giving not comprehension of the mystery itself, but a deeper penetration of what is believed', 'Removing all mystery from faith', 'Making faith unnecessary because we now understand fully'], correct: 0, explanation: 'Understanding does not eliminate mystery — it deepens our grasp of what remains infinitely beyond us.' },
+    { category: 'gift', topic: 'counsel', level: 2, q: 'How does the Gift of Counsel relate to discernment of spirits?', answers: ['Counsel enables us to recognize the Holy Spirit\'s promptings versus those from other sources', 'Discernment and counsel are completely separate things', 'Counsel replaces the need for spiritual direction'], correct: 0, explanation: 'The Gift of Counsel helps us distinguish divine inspiration from natural inclination or temptation.' },
+    { category: 'gift', topic: 'fortitudeGift', level: 2, q: 'The Gift of Fortitude is especially needed when:', answers: ['Natural courage is insufficient — in persecution, martyrdom, or prolonged spiritual trial', 'Facing everyday inconveniences', 'We want to be physically stronger'], correct: 0, explanation: 'The gift provides supernatural fortitude for situations where natural courage would fail.' },
+    { category: 'gift', topic: 'knowledge', level: 2, q: 'The Gift of Knowledge helps us avoid the error of:', answers: ['Treating created goods as ultimate ends — idolatry in its broadest sense', 'Learning too much about science', 'Appreciating beauty in nature'], correct: 0, explanation: 'Knowledge rightly orders creation — everything is good as a sign pointing to God, but none can replace Him.' },
+    { category: 'gift', topic: 'piety', level: 2, q: 'The Gift of Piety transforms our prayer because:', answers: ['It moves us from formal obligation to intimate, affectionate conversation with God as Father', 'It makes us pray longer', 'It removes the need for formal prayer'], correct: 0, explanation: 'Piety turns dutiful worship into loving communion — prayer becomes a child\'s conversation with a Father.' },
+    { category: 'gift', topic: 'fearOfLord', level: 2, q: 'How does filial fear differ from servile fear?', answers: ['Filial fear dreads offending a beloved Father; servile fear dreads only the punishment', 'There is no meaningful difference', 'Servile fear is better because it is more motivating'], correct: 0, explanation: 'Filial fear flows from love — we fear hurting the One we love. Servile fear only fears consequences.' },
+
+    // ===== LEVEL 3 — Advanced Gift Questions =====
+    { category: 'gift', topic: 'wisdom', level: 3, q: 'How do the seven gifts relate to each other in the soul\'s spiritual life, according to St. Thomas?', answers: ['They form an interconnected system: Wisdom is the highest, ordering all others, while Fear of the Lord is the foundation that disposes us to receive the rest', 'Each gift operates independently', 'Only one gift is active at a time'], correct: 0, explanation: 'The gifts form a hierarchy: Fear disposes, then Fortitude/Knowledge/Piety strengthen, then Counsel/Understanding illuminate, and Wisdom crowns all.' },
+    { category: 'gift', topic: 'counsel', level: 3, q: 'The relationship between the Gift of Counsel and the infused virtue of Prudence is:', answers: ['Counsel perfects prudence by providing divine light for situations where human deliberation reaches its limit, but does not replace prudence', 'Counsel replaces prudence entirely', 'Prudence is natural; counsel is supernatural, and they never interact'], correct: 0, explanation: 'The gifts perfect the virtues — Counsel does not bypass prudence but elevates it with supernatural guidance.' },
+    { category: 'gift', topic: 'knowledge', level: 3, q: 'Ecclesiastes\' statement "vanity of vanities, all is vanity" reflects the Gift of Knowledge because:', answers: ['It judges created things rightly — apart from God, all creatures are insufficient for human happiness', 'It shows pessimism about creation', 'It means created things are evil'], correct: 0, explanation: 'Knowledge does not despise creation but sees its limits — only God can satisfy the human heart.' }
+  ];
+
+  // ===== FRUIT OF THE HOLY SPIRIT QUESTIONS =====
+  const FRUIT_QUESTIONS = [
+    // Charity (Fruit)
+    { category: 'fruit', topic: 'charityFruit', q: 'The Fruit of Charity is:', answers: ['Selfless love made visible in action — love that seeks nothing for itself', 'A warm feeling of affection', 'Giving money to the poor'], correct: 0, explanation: 'As a fruit, Charity is the tangible evidence of the Holy Spirit\'s love flowing through us.' },
+    { category: 'fruit', topic: 'charityFruit', q: 'The Fruit of Charity differs from the theological virtue of Charity because:', answers: ['The virtue is the habit; the fruit is its mature, visible expression in daily life', 'They are unrelated', 'The fruit is less important'], correct: 0, explanation: 'Fruits are the perfected effects of virtues — Charity as a fruit is love operating with ease and joy.' },
+
+    // Joy
+    { category: 'fruit', topic: 'joy', q: 'The Fruit of Joy is:', answers: ['A deep spiritual gladness that persists even in suffering', 'The same as happiness', 'A constant emotional high'], correct: 0, explanation: 'Joy is not circumstantial happiness — it is a supernatural gladness rooted in God\'s presence.' },
+    { category: 'fruit', topic: 'joy', q: 'St. Paul could write about joy from prison because:', answers: ['True joy comes from union with God, not from circumstances', 'He was in denial about his situation', 'The prison was comfortable'], correct: 0, explanation: 'Paul\'s joy was rooted in Christ, making it independent of external conditions.' },
+
+    // Peace
+    { category: 'fruit', topic: 'peace', q: 'The Fruit of Peace is:', answers: ['Interior tranquility from having one\'s soul rightly ordered toward God', 'The absence of all conflict', 'A relaxed feeling'], correct: 0, explanation: 'Peace is the tranquility of order — when passions are governed by reason and reason by God.' },
+    { category: 'fruit', topic: 'peace', q: 'Jesus said "My peace I give to you; not as the world gives" meaning:', answers: ['His peace is an interior order that external chaos cannot destroy', 'Worldly peace is bad', 'Only Christians can have peace'], correct: 0, explanation: 'Christ\'s peace is supernatural — it endures even when external circumstances are turbulent.' },
+
+    // Patience (Fruit)
+    { category: 'fruit', topic: 'longanimity', q: 'The Fruit of Patience is:', answers: ['Forbearance in difficulties, bearing trials with equanimity', 'Passive waiting without hope', 'Suppressing frustration'], correct: 0, explanation: 'Patience as a fruit is the mature ability to endure difficulty with supernatural calm.' },
+    { category: 'fruit', topic: 'longanimity', q: 'The Fruit of Patience flows from which cardinal virtue?', answers: ['Fortitude — specifically the sub-virtue of patience', 'Temperance', 'Prudence'], correct: 0, explanation: 'When fortitude\'s patience is perfected by the Holy Spirit, the Fruit of Patience appears.' },
+
+    // Kindness
+    { category: 'fruit', topic: 'kindness', q: 'The Fruit of Kindness is:', answers: ['Benevolence toward others made concrete in gentle, considerate action', 'Being nice to get something in return', 'Avoiding conflict at all costs'], correct: 0, explanation: 'Kindness as a fruit flows naturally and joyfully — it is effortless generosity of spirit.' },
+    { category: 'fruit', topic: 'kindness', q: 'The Fruit of Kindness flows from:', answers: ['Justice, especially the sub-virtue of Friendship (affability)', 'Temperance', 'Fortitude'], correct: 0, explanation: 'When justice\'s friendship is perfected by grace, kindness appears as a mature fruit.' },
+
+    // Goodness
+    { category: 'fruit', topic: 'goodness', q: 'The Fruit of Goodness is:', answers: ['Generosity and uprightness of heart — doing good with ease and delight', 'Following rules perfectly', 'Never making mistakes'], correct: 0, explanation: 'Goodness as a fruit means the soul naturally and joyfully tends toward what is right.' },
+    { category: 'fruit', topic: 'goodness', q: 'The Fruit of Goodness flows from the mastery of:', answers: ['Justice — when rendering what is due becomes second nature', 'Fortitude', 'Temperance'], correct: 0, explanation: 'A soul fully formed in justice radiates goodness effortlessly.' },
+
+    // Generosity
+    { category: 'fruit', topic: 'generosity', q: 'The Fruit of Generosity is:', answers: ['Liberality in giving of oneself — time, talent, and treasure — with joy', 'Giving money reluctantly', 'Being generous only when others are watching'], correct: 0, explanation: 'Generosity as a fruit means giving flows naturally from a heart enlarged by grace.' },
+    { category: 'fruit', topic: 'generosity', q: 'The Fruit of Generosity flows from:', answers: ['Justice, specifically the sub-virtue of Liberality', 'Fortitude', 'Prudence'], correct: 0, explanation: 'When liberality is perfected by grace, generosity becomes a spontaneous fruit of the Spirit.' },
+
+    // Gentleness
+    { category: 'fruit', topic: 'gentleness', q: 'The Fruit of Gentleness is:', answers: ['Absence of harshness — strength expressed with tenderness and care', 'Weakness and passivity', 'Avoiding all confrontation'], correct: 0, explanation: 'Gentleness is power under the Holy Spirit\'s control — not weakness, but strength made tender.' },
+    { category: 'fruit', topic: 'gentleness', q: 'The Fruit of Gentleness flows from:', answers: ['Temperance, specifically the sub-virtue of Meekness', 'Fortitude', 'Justice'], correct: 0, explanation: 'When meekness is perfected by grace, gentleness appears as a mature fruit.' },
+
+    // Faithfulness
+    { category: 'fruit', topic: 'faithfulness', q: 'The Fruit of Faithfulness is:', answers: ['Fidelity and constancy — remaining true to God, promises, and one\'s state in life', 'Never changing your mind about anything', 'Following trends faithfully'], correct: 0, explanation: 'Faithfulness as a fruit means constancy flows naturally from a soul rooted in God.' },
+    { category: 'fruit', topic: 'faithfulness', q: 'The Fruit of Faithfulness flows from:', answers: ['The theological virtue of Faith, perfected by grace', 'Temperance', 'Fortitude'], correct: 0, explanation: 'When faith is deepened by the Holy Spirit, faithfulness appears as its mature fruit.' },
+
+    // Modesty (Fruit)
+    { category: 'fruit', topic: 'modestyFruit', q: 'The Fruit of Modesty is:', answers: ['Propriety and humble demeanor flowing naturally from interior order', 'Following a dress code', 'Hiding from attention'], correct: 0, explanation: 'Modesty as a fruit means the soul\'s interior dignity naturally shows outwardly.' },
+    { category: 'fruit', topic: 'modestyFruit', q: 'The Fruit of Modesty flows from:', answers: ['Temperance, specifically the sub-virtue of Modesty', 'Justice', 'Fortitude'], correct: 0, explanation: 'When temperance\'s modesty is perfected by grace, it becomes a visible fruit of the Spirit.' },
+
+    // Self-Control
+    { category: 'fruit', topic: 'selfControl', q: 'The Fruit of Self-Control is:', answers: ['Mastery over impulses through reason illuminated by grace, exercised with ease', 'White-knuckle willpower', 'Never having any desires'], correct: 0, explanation: 'Self-control as a fruit means ordering desires becomes natural — not a constant struggle.' },
+    { category: 'fruit', topic: 'selfControl', q: 'The Fruit of Self-Control flows from:', answers: ['Temperance, specifically the sub-virtue of Continence', 'Prudence', 'Justice'], correct: 0, explanation: 'When continence is perfected by the Holy Spirit, self-control appears as a mature fruit.' },
+
+    // Chastity (Fruit)
+    { category: 'fruit', topic: 'chastityFruit', q: 'The Fruit of Chastity is:', answers: ['Purity of heart and body flowing from a soul rightly ordered by grace', 'Rejecting the body as evil', 'An impossible ideal'], correct: 0, explanation: 'Chastity as a fruit means purity flows naturally from a heart transformed by the Holy Spirit.' },
+    { category: 'fruit', topic: 'chastityFruit', q: 'The Fruit of Chastity flows from:', answers: ['Temperance, specifically the sub-virtue of Chastity', 'Justice', 'Fortitude'], correct: 0, explanation: 'When temperance\'s chastity is perfected by grace, it becomes a beautiful fruit of the Spirit.' },
+
+    // ===== LEVEL 2 — Intermediate Fruit Questions =====
+    { category: 'fruit', topic: 'charityFruit', level: 2, q: 'How does the Fruit of Charity differ from mere philanthropy?', answers: ['Charity flows from the Holy Spirit and loves others for God\'s sake, not just human compassion', 'There is no real difference', 'Philanthropy is actually better because it is more practical'], correct: 0, explanation: 'The fruit of Charity is supernatural — it loves with God\'s own love, not just natural sympathy.' },
+    { category: 'fruit', topic: 'joy', level: 2, q: 'A saint experiencing great suffering yet radiating joy demonstrates:', answers: ['That joy is independent of circumstances because it flows from union with God', 'That they are suppressing their real feelings', 'That suffering is not real for holy people'], correct: 0, explanation: 'Supernatural joy coexists with natural sorrow because its source is God, not circumstances.' },
+    { category: 'fruit', topic: 'peace', level: 2, q: 'St. Augustine defined peace as "the tranquility of order." This means:', answers: ['Peace comes when everything in the soul is rightly ordered — passions under reason, reason under God', 'Peace means everything is calm and nothing is happening', 'Peace is the absence of enemies'], correct: 0, explanation: 'Interior peace requires right ordering of the whole person — not just quiet surroundings.' },
+    { category: 'fruit', topic: 'longanimity', level: 2, q: 'How does the Fruit of Patience relate to redemptive suffering?', answers: ['Patient endurance of suffering, united to Christ\'s cross, has redemptive value for others', 'Patience means suffering has no purpose but we endure it anyway', 'Only Christ\'s suffering is redemptive, ours never is'], correct: 0, explanation: 'St. Paul says we "fill up what is lacking in Christ\'s afflictions" (Col 1:24) — patient suffering is co-redemptive.' },
+    { category: 'fruit', topic: 'kindness', level: 2, q: 'Kindness as a mature fruit differs from people-pleasing because:', answers: ['True kindness serves the other\'s real good, even when it requires difficult honesty', 'They are essentially the same thing', 'Kindness never involves saying anything hard'], correct: 0, explanation: 'The fruit of kindness is ordered by truth — it seeks genuine good, not merely approval.' },
+    { category: 'fruit', topic: 'selfControl', level: 2, q: 'Why does St. Thomas teach that the truly temperate person differs from the merely continent person?', answers: ['The temperate person\'s desires are rightly ordered; the continent person still struggles against disordered desires', 'There is no real difference', 'The continent person is more virtuous because they fight harder'], correct: 0, explanation: 'Self-control as a fruit means the struggle lessens — desires become ordered, not just resisted.' },
+
+    // ===== LEVEL 3 — Advanced Fruit Questions =====
+    { category: 'fruit', topic: 'charityFruit', level: 3, q: 'St. Thomas Aquinas teaches that the fruits of the Holy Spirit are related to the beatitudes in that:', answers: ['The fruits are delightful acts that flow from perfected virtues, while the beatitudes are the heroic acts of perfect virtue — fruits support and manifest the beatitudes', 'They are completely unrelated concepts', 'The beatitudes replace the fruits'], correct: 0, explanation: 'Fruits are the sweet effects of virtues operating well; beatitudes are the heroic summit. Both flow from the same perfected virtues.' },
+    { category: 'fruit', topic: 'peace', level: 3, q: 'The relationship between the Fruit of Peace and the Gift of Wisdom is:', answers: ['Wisdom orders all things in light of God, producing the tranquility of right order that is Peace', 'They are unrelated gifts working independently', 'Peace produces Wisdom, not the other way around'], correct: 0, explanation: 'Wisdom judges all things by the highest cause (God), and this right ordering produces the fruit of Peace.' },
+    { category: 'fruit', topic: 'joy', level: 3, q: 'How does the Fruit of Joy relate to the dark night of the soul described by St. John of the Cross?', answers: ['Joy persists at the deepest level of the soul even when all consolation is stripped away, because it is rooted in the will\'s union with God, not in feelings', 'Joy is lost during the dark night and must be regained afterward', 'The dark night proves joy is unreliable'], correct: 0, explanation: 'The dark night purifies joy from dependence on consolation, leaving a purer joy rooted in faith alone.' }
   ];
 
   // ===== MORAL CHOICES (for attack turns - tiered rewards) =====
@@ -478,6 +633,58 @@ const VIRTUE_DATA = (function () {
       explanation: 'Understanding grasps both the order\'s intent and the proper way to address concerns.' }
   ];
 
+  // ===== REGISTER CATEGORIES WITH TEACHING MODULE =====
+  // Maps existing data into the category-agnostic TeachingModule format.
+  // This runs at load time so TeachingModule is ready for game.js.
+
+  if (typeof TeachingModule !== 'undefined') {
+    // Cardinal Virtues — questions use topic=virtue, subtopic=sub
+    var cardinalTopics = {};
+    Object.keys(CARDINAL_VIRTUES).forEach(function (vId) {
+      var v = CARDINAL_VIRTUES[vId];
+      cardinalTopics[vId] = {
+        name: v.name,
+        subtopics: v.subVirtues,
+        subtopicNames: v.subNames
+      };
+    });
+    TeachingModule.registerCategory('cardinal', {
+      name: 'Cardinal Virtues',
+      topics: cardinalTopics,
+      masteryThreshold: 2,
+      maxLevel: 3,
+      levelsEnabled: true
+    }, VIRTUE_QUESTIONS.map(function (q) {
+      return { category: 'cardinal', topic: q.virtue, subtopic: q.sub, level: q.level || 1, q: q.q, answers: q.answers, correct: q.correct, explanation: q.explanation };
+    }));
+
+    // Gifts of the Holy Spirit
+    var giftTopics = {};
+    GIFTS_OF_SPIRIT.forEach(function (g) {
+      giftTopics[g.id] = { name: g.name };
+    });
+    TeachingModule.registerCategory('gift', {
+      name: 'Gifts of the Holy Spirit',
+      topics: giftTopics,
+      masteryThreshold: 2,
+      maxLevel: 3,
+      levelsEnabled: true
+    }, GIFT_QUESTIONS);
+
+    // Fruits of the Holy Spirit
+    var fruitTopics = {};
+    FRUITS_OF_SPIRIT.forEach(function (f) {
+      fruitTopics[f.id] = { name: f.name };
+    });
+    TeachingModule.registerCategory('fruit', {
+      name: 'Fruits of the Holy Spirit',
+      topics: fruitTopics,
+      masteryThreshold: 2,
+      maxLevel: 3,
+      levelsEnabled: true
+    }, FRUIT_QUESTIONS);
+  }
+
   return {
     CARDINAL_VIRTUES,
     THEOLOGICAL_VIRTUES,
@@ -485,6 +692,8 @@ const VIRTUE_DATA = (function () {
     FRUITS_OF_SPIRIT,
     SUNDAY_REFLECTIONS,
     VIRTUE_QUESTIONS,
-    MORAL_CHOICES
+    MORAL_CHOICES,
+    GIFT_QUESTIONS,
+    FRUIT_QUESTIONS
   };
 })();
