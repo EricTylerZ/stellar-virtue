@@ -1,0 +1,15 @@
+{
+  "appId": "com.zoseco.stellarvirtue",
+  "appName": "Stellar Virtue",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "backgroundColor": "#0a0e17"
+  },
+  "android": {
+    "backgroundColor": "#0a0e17"
+  }
+}
